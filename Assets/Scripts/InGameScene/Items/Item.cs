@@ -26,7 +26,7 @@ public class Item : MonoBehaviour
         transform.position = new Vector3(x, y, 0);
     }
 
-    public void Destroy(bool used)
+    public void DestroyItem(bool used)
     {
         if (used)
         {

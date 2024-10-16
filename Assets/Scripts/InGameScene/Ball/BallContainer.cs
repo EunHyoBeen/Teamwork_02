@@ -6,17 +6,17 @@ public class BallContainer : MonoBehaviour
     [System.Serializable]
     public class Pool
     {
-        public LayerMask layer;
+        public string tag;
         public GameObject prefab;
         public int size;
     }
 
     public List<Pool> Pools;
-    public Dictionary<LayerMask, Queue<GameObject>> PoolDictionary;
+    public Dictionary<string, Queue<GameObject>> PoolDictionary;
 
     private void Awake()
     {
-        PoolDictionary = new Dictionary<LayerMask, Queue<GameObject>>();
+        PoolDictionary = new Dictionary<string, Queue<GameObject>>();
         foreach (var pool in Pools)
         {
             Queue<GameObject> objectPool = new Queue<GameObject>();
@@ -27,16 +27,16 @@ public class BallContainer : MonoBehaviour
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
             }
-            PoolDictionary.Add(pool.layer, objectPool);
+            PoolDictionary.Add(pool.tag, objectPool);
         }
     }
-    public GameObject SpawnFromPool(LayerMask layer)
+    public GameObject SpawnFromPool(string tag)
     {
-        if (!PoolDictionary.ContainsKey(layer))
+        if (!PoolDictionary.ContainsKey(tag))
             return null;
 
-        GameObject obj = PoolDictionary[layer].Dequeue();
-        PoolDictionary[layer].Enqueue(obj);
+        GameObject obj = PoolDictionary[tag].Dequeue();
+        PoolDictionary[tag].Enqueue(obj);
         obj.SetActive(true);
         return obj;
     }

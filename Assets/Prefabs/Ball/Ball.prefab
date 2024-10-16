@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4918210218060601820}
   - component: {fileID: 504207047099288828}
   - component: {fileID: 894064320280829611}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 3919026895046594890}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 2d30fe254aeb4e54780f440e36c940fd, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -136,9 +136,9 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 2d30fe254aeb4e54780f440e36c940fd, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -170,4 +170,4 @@ MonoBehaviour:
   blockLayer:
     serializedVersion: 2
     m_Bits: 512
-  speed: 5
+  speed: 7
