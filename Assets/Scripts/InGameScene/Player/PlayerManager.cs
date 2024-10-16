@@ -1,16 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
-    public int health = 3;
-    public GameObject ballPrefab;
-    public Transform paddleTransform;
-    public float ballOffsetY = 0.5f;
-    public Image ballImage;
+    [SerializeField] private int[] playerLifes = new int[2] { 3, 3 };
+    [SerializeField] private GameObject ballPrefab;
+    [SerializeField] private Transform paddleTransform;
+    [SerializeField] private float ballOffsetY = 0.5f;
+    [SerializeField] private Image ballImage;
     private bool isAlive = true;
     private bool ballLaunched = false;
     private GameObject currentBall = null;
+
+    public event Action<int> OnDeathEvent;
+
+    
 
     private void Start()
     {
@@ -51,26 +56,39 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void DecreaseHealthOnMiss()
+    public void DecreasePlayerLife(int playerID)
     {
-        if (!isAlive)
+        int playerIndex = playerID - 1;
+
+        if (!isAlive || playerIndex < 0 || playerIndex >= playerLifes.Length)
         {
             return;
         }
 
-        health--;
+        playerLifes[playerIndex]--;
 
-        if (health <= 0)
+        if (playerLifes[playerIndex] <= 0)
         {
-            HandlePlayerDeath();
+            HandlePlayerDeath(playerID);
         }
     }
 
-    private void HandlePlayerDeath()
+    public void IncreasePlayerLife(int playerID)
+    {
+        int playerIndex = playerID - 1;
+
+        if (playerIndex >= 0 && playerIndex < playerLifes.Length)
+        {
+            playerLifes[playerIndex]++;
+        }
+    }
+
+    private void HandlePlayerDeath(int playerID)
     {
         isAlive = false;
         ballLaunched = false;
         currentBall = null;
         ballImage.gameObject.SetActive(true);
+        OnDeathEvent?.Invoke(playerID);
     }
 }
