@@ -1,17 +1,18 @@
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Block : MonoBehaviour
 {
     private static readonly int maxHealth = 10;
     private static readonly Color[] healthColor = new Color[] 
-        { new Color(0.8f, 0.8f, 0.8f), new Color(0.5f, 0.5f, 0.9f), new Color(0.0f, 1.0f, 0.5f), new Color(0.0f, 0.7f, 0.0f), new Color(0.8f, 0.8f, 0.0f),
+        { new Color(0.8f, 0.8f, 0.8f), new Color(0.6f, 0.6f, 0.9f), new Color(0.0f, 1.0f, 0.5f), new Color(0.1f, 0.7f, 0.1f), new Color(0.7f, 0.7f, 0.0f),
           new Color(1.0f, 0.5f, 0.0f), new Color(1.0f, 0.0f, 0.0f), new Color(0.5f, 0.0f, 0.5f), new Color(0.2f, 0.2f, 0.8f), new Color(0.2f, 0.2f, 0.2f) };
 
     private SpriteRenderer image;
 
-    public event Action OnBreak;
+    public event Action<float, float> OnBreak;
 
 
     private int health;
@@ -41,7 +42,7 @@ public class Block : MonoBehaviour
         else
         {
             Destroy(gameObject);
-            OnBreak?.Invoke();
+            OnBreak?.Invoke(transform.position.x, transform.position.y);
         }
     }
     
