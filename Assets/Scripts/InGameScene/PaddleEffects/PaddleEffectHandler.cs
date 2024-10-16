@@ -33,8 +33,6 @@ public class PaddleEffectHandler : MonoBehaviour
     //                    paddleSizeHandler.AdjustPaddleSize(1.5f);
     //                    break;
     //            }
-
-    //            Destroy(other.gameObject);
     //        }
     //    }
     //}

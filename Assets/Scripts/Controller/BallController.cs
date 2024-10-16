@@ -17,7 +17,7 @@ public class BallController : MonoBehaviour
     private void Awake()
     {
         float randomX = Random.Range(-1f, 1f);
-        float randomY = Random.Range(-1f, 1f);
+        float randomY = Random.Range(0f, 1f);
         direction = new Vector2 (randomX, randomY).normalized;
         rb2d = GetComponent<Rigidbody2D>();
     }
