@@ -5,22 +5,34 @@ public class PaddleMovement : MonoBehaviour
     private Rigidbody2D movementRigidbody;
     private Vector2 movementDirection = Vector2.zero;
 
-    public float baseSpeed = 5f;
+    [SerializeField] private float baseSpeed = 5f;
     public float speedMultiplier = 1f;
+
+    public bool isStopped = false;
 
     private void Awake()
     {
         movementRigidbody = GetComponent<Rigidbody2D>();
     }
-
+    
     public void SetMovementDirection(Vector2 direction)
     {
-        movementDirection = direction;
+        if (!isStopped)
+        {
+            movementDirection = direction;
+        }
     }
 
     private void FixedUpdate()
     {
-        ApplyMovement();
+        if (!isStopped)
+        {
+            ApplyMovement();
+        }
+        else
+        {
+            movementRigidbody.velocity = Vector2.zero;
+        }
     }
 
     private void ApplyMovement()

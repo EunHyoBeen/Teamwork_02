@@ -4,7 +4,7 @@ public class PaddleSizeHandler : MonoBehaviour
 {
     private Vector2 originalScale;
 
-    private void Start()
+    private void Awake()
     {
         originalScale = transform.localScale;
     }
