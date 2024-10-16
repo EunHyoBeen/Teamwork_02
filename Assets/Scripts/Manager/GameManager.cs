@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
             {
                 gameData = new DataManager.GameData();
             }
+
+            stageParameter = new InGameManager.StageParameter();
+            stageResult = new InGameManager.StageResult();
         }
     }
 

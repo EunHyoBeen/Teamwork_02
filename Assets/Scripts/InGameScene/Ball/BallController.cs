@@ -71,7 +71,7 @@ public class BallController : MonoBehaviour
         if (IsLayerMatched(blockLayer, collision.gameObject.layer))
         {
             Block block = collision.gameObject.GetComponent<Block>();
-            block.GetDamage(power);
+            block.GetDamage(1);
         }
 
     }

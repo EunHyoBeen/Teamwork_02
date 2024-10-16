@@ -38,14 +38,7 @@ public class StageButton : MonoBehaviour
     public void SelectStageButton(int stageNum)
     {
         Debug.Log(stageNum);
-        // GameManager.Instance.stageParameter.stageIndex = stageNum;
+        GameManager.Instance.stageParameter.stageIndex = stageNum;
         SceneManager.LoadScene("InGameScene");
     }
-
-    // 게임 씬에서 스테이지 번호 가져오는 코드
-    // void Start()
-    // {
-    //     int selectedStage = PlayerPrefs.GetInt("Stage");
-        
-    // }   
 }
