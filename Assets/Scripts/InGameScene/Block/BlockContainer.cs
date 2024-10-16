@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 public class BlockContainer : MonoBehaviour
 {
@@ -13,9 +15,10 @@ public class BlockContainer : MonoBehaviour
 
     private int blockRemains;
 
+    public event Action OnAllBlockDestroyed;
+
     private void Start()
     {
-        StageIndex = Mathf.Clamp(StageIndex, 1, 4);
         DeployBlock(StageIndex);
     }
 
@@ -87,14 +90,45 @@ public class BlockContainer : MonoBehaviour
                                               { 3, 1, 1, 1, 1, 1, 1, 3 },
                                               { 5, 5, 5, 5, 5, 5, 5, 5 } };
                 break;
+            case 5:
+                BlockMap_R = new int[10, 7] { {10,10,10,10,10,10,10 },
+                                              { 9, 9, 9, 9, 9, 9, 9 },
+                                              { 8, 8, 8, 8, 8, 8, 8 },
+                                              { 7, 7, 7, 7, 7, 7, 7 },
+                                              { 6, 6, 6, 6, 6, 6, 6 },
+                                              { 5, 5, 5, 5, 5, 5, 5 },
+                                              { 4, 4, 4, 4, 4, 4, 4 },
+                                              { 3, 3, 3, 3, 3, 3, 3 },
+                                              { 2, 2, 2, 2, 2, 2, 2 },
+                                              { 1, 1, 1, 1, 1, 1, 1 } };
+
+                BlockMap_C = new int[7, 9] { {10,10,10,10,10,10,10,10,10 },
+                                             {10, 0, 0, 0, 0, 0, 0, 0,10 },
+                                             {10, 0, 0, 0, 0, 0, 0, 0,10 },
+                                             {10, 0, 0, 0, 0, 0, 0, 0,10 },
+                                             {10, 0, 0, 0, 0, 0, 0, 0,10 },
+                                             {10, 0, 0, 0, 0, 0, 0, 0,10 },
+                                             {10,10,10,10, 0,10,10,10,10 } };
+                break;
 
             default:
+                xInterval_R = 0.64f;
+                yInterval_R = 0.4f;
+                BlockMap_R = new int[8, 6] { { 1, 1, 1, 1, 1, 1 },
+                                             { 1, 1, 1, 1, 1, 1 },
+                                             { 1, 1, 1, 1, 1, 1 },
+                                             { 1, 1, 1, 1, 1, 1 },
+                                             { 1, 1, 1, 1, 1, 1 },
+                                             { 1, 1, 1, 1, 1, 1 },
+                                             { 1, 1, 1, 1, 1, 1 },
+                                             { 1, 1, 1, 1, 1, 1 } };
                 break;
         }
 
         if (BlockMap_R != null) DrawBlockMap(blockRectangle, BlockMap_R, xCenter_R, yCenter_R, xInterval_R, yInterval_R);
         if (BlockMap_C != null) DrawBlockMap(blockCircle, BlockMap_C, xCenter_C, yCenter_C, xInterval_C, yInterval_C);
     }
+
     private void DrawBlockMap(GameObject blockPrefab, int[,] blockMap, float xCenter, float yCenter, float xInterval, float yInterval)
     {
         int xLen = blockMap.GetLength(1);
@@ -113,6 +147,7 @@ public class BlockContainer : MonoBehaviour
             }
         }
     }
+
     private void InstantiateBlock(GameObject blockPrefab, float x, float y, int health)
     {
         GameObject blockInstance = Instantiate(blockPrefab);
@@ -123,13 +158,13 @@ public class BlockContainer : MonoBehaviour
         blockRemains++;
     }
 
-    public void BreakBlock(float x, float y)
+    private void BreakBlock(float x, float y)
     {
         blockRemains--;
         itemContainer.RandomItemCreation(x, y);
         if (blockRemains <= 0)
         {
-            // TODO : 게임 클리어 호출
+            OnAllBlockDestroyed?.Invoke();
         }
     }
 }

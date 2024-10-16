@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class Item : MonoBehaviour
 {
@@ -26,7 +23,7 @@ public class Item : MonoBehaviour
         transform.position = new Vector3(x, y, 0);
     }
 
-    public void Destroy(bool used)
+    public void DestroyItem(bool used)
     {
         if (used)
         {
