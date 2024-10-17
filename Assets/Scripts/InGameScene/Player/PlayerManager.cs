@@ -9,13 +9,13 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Transform paddleTransform;
     [SerializeField] private float ballOffsetY = 0.5f;
     [SerializeField] private Image ballImage;
+    [SerializeField] private GameObject ballcontainer;
+
     private bool isAlive = true;
     private bool ballLaunched = false;
     private GameObject currentBall = null;
 
     public event Action<int> OnDeathEvent;
-
-    
 
     private void Start()
     {

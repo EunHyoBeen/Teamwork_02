@@ -170,4 +170,4 @@ MonoBehaviour:
   blockLayer:
     serializedVersion: 2
     m_Bits: 512
-  speed: 7
+  speed: 5
