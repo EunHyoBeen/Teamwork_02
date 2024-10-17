@@ -73,6 +73,7 @@ public class BallController : MonoBehaviour
             //if(player.ballCount == 0) player.life--;
             // 블록은 남기고 게임 다시 시작
         }
+
         else                                                                // 벽과 블럭에 충돌 시 방향전환
         {
             Vector2 normal = collision.contacts[0].normal;                  // 충돌시 법선 구함
@@ -80,6 +81,8 @@ public class BallController : MonoBehaviour
 
             rb2d.velocity = direction * speed;
         }
+
+
         if(IsLayerMatched(wallLayer, collision.gameObject.layer))
         {
             direction = rb2d.velocity.normalized;
@@ -88,7 +91,7 @@ public class BallController : MonoBehaviour
             {
                 direction = Rotate(direction, -rotateAngle * Mathf.Deg2Rad);
             }
-            else if(degree < -180 + Threshold || degree < Threshold && degree >= 0)   // 공이 각도를 +해야할때 (-180도에 가깝거나, 양수중에 0도에 가까울떄)
+            else if(degree < -180 + Threshold || degree < Threshold && degree >= 0)   // 공이 각도를 +해야할때 (-180도에 가깝거나, 양수중에 0도에 가까울 때)
             {
                 direction = Rotate(direction, rotateAngle * Mathf.Deg2Rad);
             }
@@ -126,11 +129,6 @@ public class BallController : MonoBehaviour
     private Vector2 DirectionAfterCollision(Vector2 normal)       // 충돌 후 방향 계산
     {
         float angleBetweenVectors = getAngle(-direction, normal);
-        //if (Mathf.Abs(angleBetweenVectors) > Mathf.PI / 2 && Mathf.Abs(angleBetweenVectors) < Mathf.PI * 3 / 2)
-        //{
-        //    Debug.Log($"Error : {angleBetweenVectors * Mathf.Rad2Deg}");
-        //}
-
         Vector2 reflectDirection = Rotate(-direction, angleBetweenVectors + Mathf.Clamp(angleBetweenVectors, -90 + Threshold, 90 - Threshold)).normalized;  // 최대 반사각을 90-Threshold로 잡음
         return reflectDirection;
     }

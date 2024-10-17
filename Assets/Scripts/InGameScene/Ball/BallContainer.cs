@@ -10,7 +10,8 @@ public class BallContainer : MonoBehaviour
         public GameObject prefab;
         public int size;
     }
-
+    private int activeBalls = 0;
+    private int maxBallNumber = 20;
     public List<Pool> Pools;
     public Dictionary<string, Queue<GameObject>> PoolDictionary;
 
@@ -40,6 +41,7 @@ public class BallContainer : MonoBehaviour
         GameObject obj = PoolDictionary[tag].Dequeue();
         PoolDictionary[tag].Enqueue(obj);
         obj.SetActive(true);
+        activeBalls++;
         return obj;
     }
 
@@ -59,16 +61,18 @@ public class BallContainer : MonoBehaviour
         }
     }
 
-    public void TripleBalls()
+    public void MultiplyBalls(int multiplier)                   // 공의 갯수 multiplier 배로 늘림, 공 개수의 최대치는 maxBallNumber
     {
         foreach(Transform child in transform)
         {
             if (child.gameObject.activeSelf)
             {
-                GameObject Ball1 = SpawnFromPool("Ball");
-                Ball1.transform.position = child.transform.position;
-                GameObject Ball2 = SpawnFromPool("Ball");
-                Ball2.transform.position = child.transform.position;
+                for(int i=0; i<multiplier; i++)
+                {
+                    if (activeBalls >= maxBallNumber) return;
+                    GameObject ball = SpawnFromPool("Ball");
+                    ball.transform.position = child.transform.position;
+                }
             }
         }
     }
