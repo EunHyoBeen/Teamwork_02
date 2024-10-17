@@ -12,16 +12,19 @@ public class ItemContainer : MonoBehaviour
     private void Awake()
     {
         typeProbabilityWeight = new Dictionary<Item.Type, float>();
-        typeProbabilityWeight.Add(Item.Type._NONE, 15f);
-        typeProbabilityWeight.Add(Item.Type.BonusLife, 0.1f);
-        typeProbabilityWeight.Add(Item.Type.PaddleSizeUp, 0.5f);
-        typeProbabilityWeight.Add(Item.Type.PaddleSizeDown, 0.5f);
-        typeProbabilityWeight.Add(Item.Type.PaddleSpeedUp, 0.5f);
-        typeProbabilityWeight.Add(Item.Type.PaddleSpeedDown, 0.5f);
-        typeProbabilityWeight.Add(Item.Type.BallPowerUp, 0.5f);
-        typeProbabilityWeight.Add(Item.Type.BallSpeedUp, 0.5f);
-        typeProbabilityWeight.Add(Item.Type.BallTriple, 1.0f);
-        typeProbabilityWeight.Add(Item.Type.PaddleStopDebuff, 1.0f);
+
+        //아이템 생성 가중치
+        typeProbabilityWeight.Add(Item.Type._NONE,             15.0f); // 생성 안함
+        typeProbabilityWeight.Add(Item.Type.BonusLife,          0.1f); // 목숨 추가
+        typeProbabilityWeight.Add(Item.Type.PaddleSizeUp,       0.5f); // 패들 길이 증가
+        typeProbabilityWeight.Add(Item.Type.PaddleSizeDown,     0.5f); // 패들 길이 감소
+        typeProbabilityWeight.Add(Item.Type.PaddleSpeedUp,      0.5f); // 패들 이속 증가
+        typeProbabilityWeight.Add(Item.Type.PaddleSpeedDown,    0.5f); // 패들 이속 감소
+        typeProbabilityWeight.Add(Item.Type.BallPowerUp,        0.5f); // 볼 공격력 증가(기간)
+        typeProbabilityWeight.Add(Item.Type.BallSpeedUp,        0.5f); // 볼 속도 증가(기간)
+        typeProbabilityWeight.Add(Item.Type.BallTriple,         1.0f); // 볼 3개로 분할
+        typeProbabilityWeight.Add(Item.Type.PaddleStopDebuff,   1.0f); // 패들 멈춤(기간)
+
         typeTotalWeight = 0;
         foreach (KeyValuePair<Item.Type, float> typeWeight in typeProbabilityWeight) typeTotalWeight += typeWeight.Value;
     }

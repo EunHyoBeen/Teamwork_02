@@ -8,6 +8,7 @@ public class BlockContainer : MonoBehaviour
 {
     [SerializeField] private GameObject blockRectangle;
     [SerializeField] private GameObject blockCircle;
+    [SerializeField] private GameObject blockInvincible;
 
     [SerializeField] private ItemContainer itemContainer;
 
@@ -104,6 +105,39 @@ public class BlockContainer : MonoBehaviour
                                              {10, 0, 0, 0, 0, 0, 0, 0,10 },
                                              {10,10,10,10, 0,10,10,10,10 } };
                 break;
+            case 6:
+                InstantiateInvincibleBlock(-2.2f, 1, 2, 1);
+                InstantiateInvincibleBlock(0, 1, 2, 1);
+                InstantiateInvincibleBlock(2.2f, 1, 2, 1);
+                yCenter_R = 2.75f;
+                BlockMap_R = new int[8, 8] { { 0, 0, 0, 4, 4, 0, 0, 0 },
+                                             { 0, 0, 0, 4, 4, 0, 0, 0 },
+                                             { 0, 0, 4, 4, 4, 4, 0, 0 },
+                                             { 0, 0, 4, 4, 4, 4, 0, 0 },
+                                             { 0, 4, 4, 4, 4, 4, 4, 0 },
+                                             { 0, 4, 4, 4, 4, 4, 4, 0 },
+                                             { 4, 4, 4, 4, 4, 4, 4, 4 },
+                                             { 4, 4, 4, 4, 4, 4, 4, 4 } };
+                break;
+            case 7:
+                InstantiateInvincibleBlock(-1.739f, 0.475f, 3.818f, 1);
+                InstantiateInvincibleBlock(1.739f, 0.475f, 3.818f, 1);
+                InstantiateInvincibleBlock(-0.918f, 1.984f, 0.5f, 11.212f);
+                InstantiateInvincibleBlock(0.918f, 1.984f, 0.5f, 11.212f);
+                xInterval_R = 0.53f;
+                BlockMap_R = new int[11, 10] { { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
+                                               { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
+                                               { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
+                                               { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
+                                               { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
+                                               { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
+                                               { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
+                                               { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
+                                               { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
+                                               { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
+                                               { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 } };
+                break;
+
 
             default:
                 xInterval_R = 0.64f;
@@ -150,6 +184,14 @@ public class BlockContainer : MonoBehaviour
         block.OnBreak += BreakBlock;
         block.InitializeBlock(x, y, health);
         blockRemains++;
+    }
+
+    private void InstantiateInvincibleBlock(float x, float y, float width, float height)
+    {
+        GameObject blockInstance = Instantiate(blockInvincible);
+        blockInstance.transform.SetParent(transform);
+        Block block = blockInstance.GetComponent<Block>();
+        block.InitializeInvincibleBlock(x, y, width, height);
     }
 
     private void BreakBlock(float x, float y)
