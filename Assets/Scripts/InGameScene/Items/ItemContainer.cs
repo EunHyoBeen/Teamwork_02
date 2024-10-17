@@ -52,4 +52,12 @@ public class ItemContainer : MonoBehaviour
         Item item = itemInstance.GetComponent<Item>();
         item.InitializeItem(x, y, selectedItemType);
     }
+
+    public void Clear()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
 }
