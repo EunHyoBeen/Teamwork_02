@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -41,11 +42,17 @@ public class Block : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            if (TryGetComponent<BoxCollider2D>(out BoxCollider2D boxCollider)) boxCollider.enabled = false;
+            if (TryGetComponent<CircleCollider2D>(out CircleCollider2D circleCollider)) circleCollider.enabled = false;
+            GetComponent<Animator>().SetTrigger("blockBreak");
             OnBreak?.Invoke(transform.position.x, transform.position.y);
+            Invoke("DestroyObject", 1f);
         }
     }
-    
+    private void DestroyObject()
+    {
+        Destroy(gameObject);
+    }
 
     public void GetDamage(int damage = 1)
     {

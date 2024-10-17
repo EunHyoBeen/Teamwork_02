@@ -17,11 +17,6 @@ public class BlockContainer : MonoBehaviour
 
     public event Action OnAllBlockDestroyed;
 
-    private void Start()
-    {
-        DeployBlock(StageIndex);
-    }
-
     /// <summary>
     /// stageIndex : 스테이지 번호. 현재 1만 받음
     /// </summary>

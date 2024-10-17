@@ -26,7 +26,6 @@ public class InGameManager : MonoBehaviour
     {
         stageIndex = _stageIndex;
 
-        // TODO : 플레이어 이벤트에 게임오버 함수 걸기
         player1Alive = true;
         player2Alive = true;
         player1.OnDeathEvent += PlayerOnDeath;
@@ -52,12 +51,11 @@ public class InGameManager : MonoBehaviour
         player1.OnDeathEvent -= PlayerOnDeath;
         blockContainer.OnAllBlockDestroyed -= GameClear;
 
-        SceneManager.LoadScene("StageSelectSample");
+        SceneManager.LoadScene("StageSelectScene");
     }
 
     private void PlayerOnDeath(int playerIndex)
     {
-        //현재는 
         if (playerIndex == 1)
         {
             player1Alive = false;

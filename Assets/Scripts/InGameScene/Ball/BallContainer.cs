@@ -25,11 +25,13 @@ public class BallContainer : MonoBehaviour
                 GameObject obj = Instantiate(pool.prefab);
                 obj.transform.SetParent(transform);
                 obj.SetActive(false);
+                //obj.GetComponent<BallController>().OnDeath += OnDeath();
                 objectPool.Enqueue(obj);
             }
             PoolDictionary.Add(pool.tag, objectPool);
         }
     }
+    
     public GameObject SpawnFromPool(string tag)
     {
         if (!PoolDictionary.ContainsKey(tag))
@@ -40,4 +42,41 @@ public class BallContainer : MonoBehaviour
         obj.SetActive(true);
         return obj;
     }
+
+    public void PowerChange(int power)
+    {
+        foreach (GameObject ball in PoolDictionary[tag])
+        {
+            BallController ballcontroller = ball.GetComponent<BallController>();
+            ballcontroller.PowerChange(power);
+        }
+    }
+
+    public void SpeedChange(int speed)
+    {
+        foreach (GameObject ball in PoolDictionary[tag])
+        {
+            BallController ballcontroller = ball.GetComponent<BallController>();
+            ballcontroller.SpeedChange(speed);
+        }
+    }
+
+    //void OnDeath()
+    //{
+    //    if (AllBallsInactive)
+    //    {
+            
+    //    }
+    //}
+
+    //private bool AllBallsInactive()
+    //{
+    //    foreach (Transform child in this.transform)
+    //    {
+    //        if (child.gameObject.activeSelf) 
+    //        { 
+    //            return false; 
+    //        }
+    //    }
+    //    return true;
 }

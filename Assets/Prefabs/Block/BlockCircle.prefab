@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3078325391650970874}
   - component: {fileID: 459371843828586856}
   - component: {fileID: 8839614808235839862}
+  - component: {fileID: 7663904149217284659}
   m_Layer: 9
   m_Name: BlockCircle
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.118, y: 0.118, z: 1}
+  m_LocalScale: {x: 1.65, y: 1.65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -120,7 +121,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 2.085
+  m_Radius: 0.14914
 --- !u!114 &8839614808235839862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,3 +134,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9814daaae4a4b147975de22f477cfcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &7663904149217284659
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 693047294205735047}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: dc075310deb15e7449102c91f17dae65, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
