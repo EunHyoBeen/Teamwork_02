@@ -45,22 +45,33 @@ public class BallContainer : MonoBehaviour
 
     public void PowerChange(int power)
     {
-        foreach (GameObject ball in PoolDictionary[tag])
+        foreach (Transform child in transform)
         {
-            BallController ballcontroller = ball.GetComponent<BallController>();
-            ballcontroller.PowerChange(power);
+            child.GetComponent<BallController>().PowerChange(power);
         }
     }
 
     public void SpeedChange(int speed)
     {
-        foreach (GameObject ball in PoolDictionary[tag])
+        foreach (Transform child in transform)
         {
-            BallController ballcontroller = ball.GetComponent<BallController>();
-            ballcontroller.SpeedChange(speed);
+            child.GetComponent<BallController>().SpeedChange(speed);
         }
     }
 
+    public void TripleBalls()
+    {
+        foreach(Transform child in transform)
+        {
+            if (child.gameObject.activeSelf)
+            {
+                GameObject Ball1 = SpawnFromPool("Ball");
+                Ball1.transform.position = child.transform.position;
+                GameObject Ball2 = SpawnFromPool("Ball");
+                Ball2.transform.position = child.transform.position;
+            }
+        }
+    }
     //void OnDeath()
     //{
     //    if (AllBallsInactive)

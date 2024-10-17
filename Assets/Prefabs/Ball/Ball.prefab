@@ -137,7 +137,7 @@ Rigidbody2D:
   m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 0.0005
+  m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 2d30fe254aeb4e54780f440e36c940fd, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -148,7 +148,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!114 &894064320280829611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,4 +170,9 @@ MonoBehaviour:
   blockLayer:
     serializedVersion: 2
     m_Bits: 512
-  speed: 2.9
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  initialspeed: 5
+  Threshold: 7
+  rotateAngle: 5
