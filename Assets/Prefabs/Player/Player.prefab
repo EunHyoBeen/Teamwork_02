@@ -90,8 +90,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerLifes: 0300000003000000
-  ballPrefab: {fileID: 3919026895046594890, guid: 9b674562a44b0e641b63103144f583c0, type: 3}
-  paddleTransform: {fileID: 2422384274439159185, guid: e5fddcb93a1f7c04c8377533f3ad949a, type: 3}
+  paddleTransform: {fileID: 0}
   ballOffsetY: 0.5
-  ballImage: {fileID: 3227260626144377738, guid: 044031aa27fcc234c894f368bfafc72a, type: 3}
-  ballcontainer: {fileID: 0}
+  ballContainer: {fileID: 0}

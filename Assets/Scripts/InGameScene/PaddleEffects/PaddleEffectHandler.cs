@@ -3,7 +3,8 @@
 public class PaddleEffectHandler : MonoBehaviour
 {
     [SerializeField] private PlayerManager playerManager;
-    [SerializeField] private BallController ballController;
+    [SerializeField] private BallContainer ballContainer;
+    [SerializeField] private ParticleSystem paddleEffectParticle;
     private PaddleMovement paddleMovement;
     private PaddleSizeHandler paddleSizeHandler;
 
@@ -11,9 +12,11 @@ public class PaddleEffectHandler : MonoBehaviour
     private float ballPowerEffectDuration = 0f;
     private float stopEffectDuration = 0f;
 
+    private bool isEffectActive = false; // 파티클 상태 확인
+
     public int playerID;
 
-    private void Start()
+    private void Awake()
     {
         paddleMovement = GetComponent<PaddleMovement>();
         paddleSizeHandler = GetComponent<PaddleSizeHandler>();
@@ -21,13 +24,39 @@ public class PaddleEffectHandler : MonoBehaviour
 
     private void Update()
     {
+        HandleEffectDurations();
+    }
+
+    // 파티클 시작
+    private void StartPaddleEffect()
+    {
+        if (paddleEffectParticle != null && !paddleEffectParticle.isPlaying)
+        {
+            paddleEffectParticle.Play();
+            isEffectActive = true;
+        }
+    }
+
+    // 파티클 중지
+    private void StopPaddleEffect()
+    {
+        if (paddleEffectParticle != null && paddleEffectParticle.isPlaying)
+        {
+            paddleEffectParticle.Stop();
+            isEffectActive = false;
+        }
+    }
+
+    private void HandleEffectDurations()
+    {
         if (ballSpeedEffectDuration > 0)
         {
             ballSpeedEffectDuration -= Time.deltaTime;
             if (ballSpeedEffectDuration <= 0f)
             {
-                ballController.SpeedChange(-2.0f);
+                ballContainer.SpeedChange(-2);
                 Debug.Log("볼 스피드 복구");
+                CheckAndStopEffect();
             }
         }
 
@@ -36,8 +65,9 @@ public class PaddleEffectHandler : MonoBehaviour
             ballPowerEffectDuration -= Time.deltaTime;
             if (ballPowerEffectDuration <= 0f)
             {
-                ballController.PowerChange(-1);
+                ballContainer.PowerChange(-1);
                 Debug.Log("볼 파워 복구");
+                CheckAndStopEffect();
             }
         }
 
@@ -47,8 +77,19 @@ public class PaddleEffectHandler : MonoBehaviour
             if (stopEffectDuration <= 0f)
             {
                 paddleMovement.isStopped = false;
-                Debug.Log("볼 다시 움직임");
+                Debug.Log("패들 다시 움직임");
+                CheckAndStopEffect();
             }
+        }
+    }
+
+    // 파티클 중지 조건 확인
+    private void CheckAndStopEffect()
+    {
+        // 모든 효과가 종료되었는지 확인하고 파티클을 중지
+        if (ballSpeedEffectDuration <= 0f && ballPowerEffectDuration <= 0f && stopEffectDuration <= 0f)
+        {
+            StopPaddleEffect();
         }
     }
 
@@ -77,7 +118,7 @@ public class PaddleEffectHandler : MonoBehaviour
                         }
                     }
                 }
-                
+
                 Debug.Log($"패들 {playerID}가 아이템을 먹음");
                 ApplyItemEffect(item);
                 item.DestroyItem(true);
@@ -87,6 +128,9 @@ public class PaddleEffectHandler : MonoBehaviour
 
     private void ApplyItemEffect(Item item)
     {
+        // 새로운 아이템을 먹을 때마다 파티클 실행
+        StartPaddleEffect();
+
         switch (item.itemType)
         {
             case Item.Type.PaddleSpeedUp:
@@ -110,13 +154,13 @@ public class PaddleEffectHandler : MonoBehaviour
                 break;
 
             case Item.Type.BallPowerUp:
-                ballController.PowerChange(1);
+                ballContainer.PowerChange(1);
                 ballPowerEffectDuration = 10.0f;
                 Debug.Log("볼 파워업");
                 break;
 
             case Item.Type.BallSpeedUp:
-                ballController.SpeedChange(2.0f);
+                ballContainer.SpeedChange(2);
                 ballSpeedEffectDuration = 10.0f;
                 Debug.Log("볼 스피드업");
                 break;
