@@ -134,10 +134,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 0
+  m_GravityScale: 0.0005
   m_Material: {fileID: 6200000, guid: 2d30fe254aeb4e54780f440e36c940fd, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -170,4 +170,4 @@ MonoBehaviour:
   blockLayer:
     serializedVersion: 2
     m_Bits: 512
-  speed: 7
+  speed: 2.9
