@@ -166,6 +166,7 @@ public class PaddleEffectHandler : MonoBehaviour
                 break;
 
             case Item.Type.BallTriple:
+                ballContainer.MultiplyBalls(2);
                 Debug.Log("구현안함");
                 break;
 

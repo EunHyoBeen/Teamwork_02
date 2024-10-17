@@ -63,16 +63,21 @@ public class BallContainer : MonoBehaviour
 
     public void MultiplyBalls(int multiplier)                   // 공의 갯수 multiplier 배로 늘림, 공 개수의 최대치는 maxBallNumber
     {
-        foreach(Transform child in transform)
+        List<Transform> activechild = new List<Transform>();
+        foreach (Transform child in transform)
         {
             if (child.gameObject.activeSelf)
             {
-                for(int i=0; i<multiplier; i++)
-                {
-                    if (activeBalls >= maxBallNumber) return;
-                    GameObject ball = SpawnFromPool("Ball");
-                    ball.transform.position = child.transform.position;
-                }
+                activechild.Add(child);
+            }
+        }
+        foreach (Transform transform in activechild)
+        {
+            for (int i = 0; i < multiplier; i++)
+            {
+                if (activeBalls >= maxBallNumber) return;
+                GameObject ball = SpawnFromPool("Ball");
+                ball.transform.position = transform.transform.position;
             }
         }
     }

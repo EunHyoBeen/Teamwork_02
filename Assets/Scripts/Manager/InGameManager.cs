@@ -25,6 +25,7 @@ public class InGameManager : MonoBehaviour
     private void Start()
     {
         StageParameter stageParameter = GameManager.Instance.stageParameter;
+        Debug.Log(stageParameter.stageIndex);
         stageIndex = stageParameter.stageIndex;
         ExecuteStage();
     }

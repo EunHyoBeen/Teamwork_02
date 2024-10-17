@@ -28,7 +28,9 @@ public class StageButton : MonoBehaviour
 
             Button button = stageBtn.GetComponent<Button>();
 
-            button.onClick.AddListener(() => SelectStageButton(i));
+            Debug.Log(i);
+            int idx = i;
+            button.onClick.AddListener(() => SelectStageButton(idx));
 
             if (GameManager.Instance.gameData.StageUnlock[i] != true)
             {   
@@ -50,7 +52,6 @@ public class StageButton : MonoBehaviour
 
     public void SelectStageButton(int stageNum)
     {
-        Debug.Log(stageNum);
         GameManager.Instance.stageParameter.stageIndex = stageNum;
         SceneManager.LoadScene("InGameScene");
     }
