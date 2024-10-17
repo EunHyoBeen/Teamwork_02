@@ -25,7 +25,6 @@ public class BlockContainer : MonoBehaviour
     {
         blockRemains = 0;
 
-
         int[,] BlockMap_R = null;
         float xCenter_R = 0f;
         float yCenter_R = 2f;
@@ -160,6 +159,15 @@ public class BlockContainer : MonoBehaviour
         if (blockRemains <= 0)
         {
             OnAllBlockDestroyed?.Invoke();
+        }
+    }
+
+    public void Clear()
+    {
+        itemContainer.Clear();
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
         }
     }
 }
