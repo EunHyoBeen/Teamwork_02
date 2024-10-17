@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,7 +16,8 @@ public class Block : MonoBehaviour
 
     public event Action<float, float> OnBreak;
 
-
+    private Canvas canvas;
+    private TextMeshProUGUI healthTxt;
     private int health;
 
     private void Awake()
@@ -26,6 +28,9 @@ public class Block : MonoBehaviour
     public void InitializeBlock(float x, float y, int initialHealth)
     {
         if (initialHealth <= 0) return;
+
+        canvas = transform.GetChild(0).GetComponent<Canvas>();
+        healthTxt = canvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         SetHealth(initialHealth);
         transform.position = new Vector3(x, y, 0);
@@ -39,10 +44,12 @@ public class Block : MonoBehaviour
         if (health > 0)
         {
             image.color = healthColor[health - 1];
+            healthTxt.text = health.ToString();
         }
         else
         {
-            if (TryGetComponent<BoxCollider2D>(out BoxCollider2D boxCollider)) boxCollider.enabled = false;
+            canvas.gameObject.SetActive(false);
+            if (TryGetComponent<PolygonCollider2D>(out PolygonCollider2D boxCollider)) boxCollider.enabled = false;
             if (TryGetComponent<CircleCollider2D>(out CircleCollider2D circleCollider)) circleCollider.enabled = false;
             GetComponent<Animator>().SetTrigger("blockBreak");
             OnBreak?.Invoke(transform.position.x, transform.position.y);

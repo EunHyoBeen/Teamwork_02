@@ -13,8 +13,10 @@ public class StageButton : MonoBehaviour
     
     void Start()
     {
-        for (int i = 0; i < stageCount; i++)
+
+        for (int i = 1; i <= stageCount; i++)
         {
+            
             GameObject stageBtn = Instantiate(stageBtnPrefab, buttonParent);
 
             RectTransform rtf = stageBtn.GetComponent<RectTransform>();
@@ -25,13 +27,24 @@ public class StageButton : MonoBehaviour
             }
 
             Button button = stageBtn.GetComponent<Button>();
-            int stageIdx = i + 1;
-            button.onClick.AddListener(() => SelectStageButton(stageIdx));
 
-            stageBtn.name = "StageBtn" + (i + 1);
+            button.onClick.AddListener(() => SelectStageButton(i));
+
+            if (GameManager.Instance.gameData.StageUnlock[i] != true)
+            {   
+                InActiveButton(button, stageBtn);
+            }
+
+            stageBtn.name = "StageBtn" + i;
 
             TMPro.TextMeshProUGUI buttonText = stageBtn.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-            buttonText.text = "Stage " + (i + 1);
+            buttonText.text = "Stage " + i;
+
+            // if (GameManager.stageResult.isClear == true)
+            // {
+            //     ActiveButton(button);
+            // }
+            
         }
     }
 
@@ -41,4 +54,18 @@ public class StageButton : MonoBehaviour
         GameManager.Instance.stageParameter.stageIndex = stageNum;
         SceneManager.LoadScene("InGameScene");
     }
+
+    private void ActiveButton(Button button)
+    {
+        button.interactable = true;
+    }
+
+    private void InActiveButton(Button button, GameObject stageBtn)
+    {
+        button.interactable = false;
+        CanvasGroup canvasGroup = stageBtn.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 0.5f;
+    }
+
+    
 }
