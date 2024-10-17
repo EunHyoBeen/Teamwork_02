@@ -3,16 +3,13 @@
 public class PaddleEffectHandler : MonoBehaviour
 {
     [SerializeField] private PlayerManager playerManager;
+    [SerializeField] private BallController ballController;
     private PaddleMovement paddleMovement;
     private PaddleSizeHandler paddleSizeHandler;
-    
 
-    private float speedEffectDuration = 0f;
-    private float sizeEffectDuration = 0f;
+    private float ballSpeedEffectDuration = 0f;
+    private float ballPowerEffectDuration = 0f;
     private float stopEffectDuration = 0f;
-
-    private float originalSpeedMultiplier = 1f;
-    private float originalSizeMultiplier = 1f;
 
     public int playerID;
 
@@ -24,21 +21,23 @@ public class PaddleEffectHandler : MonoBehaviour
 
     private void Update()
     {
-        if (speedEffectDuration > 0)
+        if (ballSpeedEffectDuration > 0)
         {
-            speedEffectDuration -= Time.deltaTime;
-            if (speedEffectDuration <= 0f)
+            ballSpeedEffectDuration -= Time.deltaTime;
+            if (ballSpeedEffectDuration <= 0f)
             {
-                paddleMovement.AdjustPaddleSpeed(originalSpeedMultiplier);
+                ballController.SpeedChange(-2.0f);
+                Debug.Log("볼 스피드 복구");
             }
         }
 
-        if (sizeEffectDuration > 0)
+        if (ballPowerEffectDuration > 0)
         {
-            sizeEffectDuration -= Time.deltaTime;
-            if (sizeEffectDuration <= 0f)
+            ballPowerEffectDuration -= Time.deltaTime;
+            if (ballPowerEffectDuration <= 0f)
             {
-                paddleSizeHandler.AdjustPaddleSize(originalSizeMultiplier);
+                ballController.PowerChange(-1);
+                Debug.Log("볼 파워 복구");
             }
         }
 
@@ -48,6 +47,7 @@ public class PaddleEffectHandler : MonoBehaviour
             if (stopEffectDuration <= 0f)
             {
                 paddleMovement.isStopped = false;
+                Debug.Log("볼 다시 움직임");
             }
         }
     }
@@ -60,58 +60,81 @@ public class PaddleEffectHandler : MonoBehaviour
 
             if (item != null)
             {
-                switch (item.itemType)
+                Vector3 itemPosition = target.transform.position;
+                float distanceToThisPaddle = Vector3.Distance(transform.position, itemPosition);
+
+                PaddleEffectHandler[] allPaddles = FindObjectsOfType<PaddleEffectHandler>();
+                foreach (var paddleEffect in allPaddles)
                 {
-                    case Item.Type.PaddleSpeedUp:
-                        paddleMovement.AdjustPaddleSpeed(2.0f);
-                        speedEffectDuration = 15.0f;
-                        Debug.Log("스피드업");
-                        break;
+                    if (paddleEffect != this)
+                    {
+                        float distanceToOtherPaddle = Vector3.Distance(paddleEffect.transform.position, itemPosition);
 
-                    case Item.Type.PaddleSpeedDown:
-                        paddleMovement.AdjustPaddleSpeed(0.5f);
-                        speedEffectDuration = 15.0f;
-                        Debug.Log("스피드다운");
-                        break;
-
-                    case Item.Type.PaddleSizeUp:
-                        paddleSizeHandler.AdjustPaddleSize(1.5f);
-                        sizeEffectDuration = 15.0f;
-                        Debug.Log("사이즈업");
-                        break;
-
-                    case Item.Type.PaddleSizeDown:
-                        paddleSizeHandler.AdjustPaddleSize(0.75f);
-                        sizeEffectDuration = 15.0f;
-                        Debug.Log("사이즈다운");
-                        break;
-
-                    case Item.Type.BallPowerUp:
-                        Debug.Log("구현안함");
-                        break;
-
-                    case Item.Type.BallSpeedUp:
-                        Debug.Log("구현안함");
-                        break;
-
-                    case Item.Type.BallTriple:
-                        Debug.Log("구현안함");
-                        break;
-
-                    case Item.Type.PaddleStopDebuff:
-                        paddleMovement.isStopped = true;
-                        stopEffectDuration = 3.0f;
-                        Debug.Log("멈춰");
-                        break;
-
-                    case Item.Type.BonusLife:
-                        playerManager.IncreasePlayerLife(playerID);
-                        Debug.Log("체력증가");
-                        break;
-
+                        if (distanceToOtherPaddle < distanceToThisPaddle)
+                        {
+                            Debug.Log("다른 패들이 더 가까워 아이템을 먹지 않음");
+                            return;
+                        }
+                    }
                 }
+                
+                Debug.Log($"패들 {playerID}가 아이템을 먹음");
+                ApplyItemEffect(item);
                 item.DestroyItem(true);
             }
+        }
+    }
+
+    private void ApplyItemEffect(Item item)
+    {
+        switch (item.itemType)
+        {
+            case Item.Type.PaddleSpeedUp:
+                paddleMovement.AdjustPaddleSpeed(2.0f);
+                Debug.Log("스피드업");
+                break;
+
+            case Item.Type.PaddleSpeedDown:
+                paddleMovement.AdjustPaddleSpeed(0.5f);
+                Debug.Log("스피드다운");
+                break;
+
+            case Item.Type.PaddleSizeUp:
+                paddleSizeHandler.AdjustPaddleSize(1.5f);
+                Debug.Log("사이즈업");
+                break;
+
+            case Item.Type.PaddleSizeDown:
+                paddleSizeHandler.AdjustPaddleSize(0.75f);
+                Debug.Log("사이즈다운");
+                break;
+
+            case Item.Type.BallPowerUp:
+                ballController.PowerChange(1);
+                ballPowerEffectDuration = 10.0f;
+                Debug.Log("볼 파워업");
+                break;
+
+            case Item.Type.BallSpeedUp:
+                ballController.SpeedChange(2.0f);
+                ballSpeedEffectDuration = 10.0f;
+                Debug.Log("볼 스피드업");
+                break;
+
+            case Item.Type.BallTriple:
+                Debug.Log("구현안함");
+                break;
+
+            case Item.Type.PaddleStopDebuff:
+                paddleMovement.isStopped = true;
+                stopEffectDuration = 3.0f;
+                Debug.Log("멈춰");
+                break;
+
+            case Item.Type.BonusLife:
+                playerManager.IncreasePlayerLife(playerID);
+                Debug.Log("체력증가");
+                break;
         }
     }
 }
