@@ -2,15 +2,29 @@ using UnityEngine;
 
 public class PaddleSizeHandler : MonoBehaviour
 {
-    private Vector2 originalScale;
+    private SpriteRenderer spriteRenderer;
+    private BoxCollider2D boxCollider;
+    private Vector2 originalSize;
 
     private void Awake()
     {
-        originalScale = transform.localScale;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        boxCollider = GetComponent<BoxCollider2D>();
+        originalSize = spriteRenderer.size;
     }
 
-    public void AdjustPaddleSize(float xMultiplier)
+    public void AdjustPaddleSize(float widthChange)
     {
-        transform.localScale = new Vector2(originalScale.x * xMultiplier, originalScale.y);
+        float newWidth = Mathf.Clamp(spriteRenderer.size.x + widthChange, originalSize.x * 0.5f, originalSize.x * 2f);
+
+        spriteRenderer.size = new Vector2(newWidth, originalSize.y);
+
+        AdjustColliderSize();
+    }
+
+    private void AdjustColliderSize()
+    {
+        boxCollider.size = spriteRenderer.size;
+        boxCollider.offset = spriteRenderer.bounds.center - transform.position;
     }
 }

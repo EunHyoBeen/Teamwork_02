@@ -75,11 +75,11 @@ public class DataManager : MonoBehaviour
             StageUnlock = new bool[100];
             StageUnlock[1] = true;
 
-            // 일단 디버깅 해야하니까 언락
-            for (int i = 2; i < 50; i++)
-            {
-                StageUnlock[i] = true;
-            }
+            // // 일단 디버깅 해야하니까 언락
+            // for (int i = 2; i < 50; i++)
+            // {
+            //     StageUnlock[i] = true;
+            // }
         }
     }
     // 인게임 데이터를 json 형식으로 저장할 수 있도록 변환한 클래스
