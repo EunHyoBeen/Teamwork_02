@@ -14,6 +14,7 @@ public class BallContainer : MonoBehaviour
     private int maxBallNumber = 20;
     public List<Pool> Pools;
     public Dictionary<string, Queue<GameObject>> PoolDictionary;
+    [SerializeField][Range(0f, 20f)] private float initialSpeed = 5f;
 
     private void Awake()
     {
@@ -26,13 +27,13 @@ public class BallContainer : MonoBehaviour
                 GameObject obj = Instantiate(pool.prefab);
                 obj.transform.SetParent(transform);
                 obj.SetActive(false);
-                //obj.GetComponent<BallController>().OnDeath += OnDeath();
+                obj.GetComponent<BallController>().SetInitialSpeed(initialSpeed);
                 objectPool.Enqueue(obj);
             }
             PoolDictionary.Add(pool.tag, objectPool);
         }
     }
-    
+
     public GameObject SpawnFromPool(string tag)
     {
         if (!PoolDictionary.ContainsKey(tag))
@@ -45,58 +46,66 @@ public class BallContainer : MonoBehaviour
         return obj;
     }
 
-    public void PowerChange(int power)
+    public void InitialSpeedChange(float speed)
+    {
+        initialSpeed = speed;
+    }
+
+    public void PowerChange(int power)                          // 컨테이너 안의 모든 공의 공격력을 power로 맞춤
     {
         foreach (Transform child in transform)
         {
-            child.GetComponent<BallController>().PowerChange(power);
+            child.GetComponent<BallItemHandler>().PowerUpItem(power);
         }
     }
 
-    public void SpeedChange(int speed)
+    public void SpeedChange(float speed)                          // 컨테이너 안의 모든 공에 스피드에 speed 만큼 더함
     {
         foreach (Transform child in transform)
         {
-            child.GetComponent<BallController>().SpeedChange(speed);
+            child.GetComponent<BallItemHandler>().SpeedUpItem(speed);
         }
     }
 
     public void MultiplyBalls(int multiplier)                   // 공의 갯수 multiplier 배로 늘림, 공 개수의 최대치는 maxBallNumber
     {
         List<Transform> activechild = new List<Transform>();
-        foreach (Transform child in transform)
+        foreach (Transform child in transform)                  // 현재 활성화 된 공을 리스트에 추가
         {
             if (child.gameObject.activeSelf)
             {
                 activechild.Add(child);
             }
         }
-        foreach (Transform transform in activechild)
+        foreach (Transform transform in activechild)            // 활성화된 공에 공 개수를 몇배로 함
         {
-            for (int i = 0; i < multiplier; i++)
+            for (int i = 1; i < multiplier; i++)
             {
                 if (activeBalls >= maxBallNumber) return;
                 GameObject ball = SpawnFromPool("Ball");
-                ball.transform.position = transform.transform.position;
+                ball.transform.position = transform.position;
             }
         }
     }
-    //void OnDeath()
+
+    public void ResetBalls()
+    {
+        foreach (Transform child in transform)                  // 현재 활성화 된 공을 리스트에 추가
+        {
+            child.gameObject.SetActive(false);
+        }
+        activeBalls = 0;
+    }
+    //public void OnDeath()
     //{
     //    if (AllBallsInactive)
     //    {
-            
+
     //    }
     //}
 
-    //private bool AllBallsInactive()
-    //{
-    //    foreach (Transform child in this.transform)
-    //    {
-    //        if (child.gameObject.activeSelf) 
-    //        { 
-    //            return false; 
-    //        }
-    //    }
-    //    return true;
+    public bool AllBallsFall()
+    {
+        return activeBalls == 0;
+    }
 }
