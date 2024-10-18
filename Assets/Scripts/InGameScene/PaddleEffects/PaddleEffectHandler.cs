@@ -115,7 +115,7 @@ public class PaddleEffectHandler : MonoBehaviour
 
     private void ApplyBallTripleEffect()
     {
-        ballContainer.MultiplyBalls(2);
+        ballContainer.MultiplyBalls(3);
         Debug.Log("공 2개 생성");
     }
 
