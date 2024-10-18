@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4918210218060601820}
   - component: {fileID: 504207047099288828}
   - component: {fileID: 894064320280829611}
+  - component: {fileID: 1744190531523776163}
   m_Layer: 8
   m_Name: Ball
   m_TagString: Untagged
@@ -176,3 +177,17 @@ MonoBehaviour:
   initialspeed: 5
   Threshold: 7
   rotateAngle: 5
+--- !u!114 &1744190531523776163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3919026895046594890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5aa91223d4484438c8b2540a68b3f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerSprite: {fileID: 21300000, guid: 230302687cb445a46b10960c192c1c4d, type: 3}
+  normalSprite: {fileID: 21300000, guid: bce3e6a1032d28242a486d68514c200d, type: 3}
