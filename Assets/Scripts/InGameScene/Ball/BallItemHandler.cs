@@ -9,21 +9,21 @@ public class BallItemHandler : MonoBehaviour
     public event Action<float> OnSpeedChange;
     [SerializeField] private Sprite powerSprite;
     [SerializeField] private Sprite normalSprite;
-    //private TrailRenderer trailRenderer;
     private SpriteRenderer spriteRenderer;
+    private TrailRenderer trailRenderer;
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
         ballController = GetComponent<BallController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        //trailRenderer = GetComponent<TrailRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();
     }
     private void Start()
     {
         OnPowerChange += PowerChange;
         OnPowerChange += ChangeSpriteWhenPowerUp;
         OnSpeedChange += SpeedChange;
-        //OnSpeedChange += ChangeRendererWhenSpeedUp;
+        OnSpeedChange += ChangeRendererWhenSpeedUp;
     }
 
 
@@ -51,9 +51,9 @@ public class BallItemHandler : MonoBehaviour
     }
 
 
-    //private void ChangeRendererWhenSpeedUp(float speed)
-    //{
-    //    if (speed < 0) trailRenderer.enabled = false;
-    //    else trailRenderer.enabled = true;
-    //}
+    private void ChangeRendererWhenSpeedUp(float speed)
+    {
+        if (speed < 0) trailRenderer.enabled = false;
+        else trailRenderer.enabled = true;
+    }
 }

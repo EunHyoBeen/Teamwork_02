@@ -16,7 +16,7 @@ public class BallController : MonoBehaviour
     private Vector2 direction;
     private int power = 1;
     private Rigidbody2D rb2d;
-
+    //private TrailRenderer trailRenderer;
 
     [SerializeField][Range(1f, 20f)] private float threshold = 5f;
     [SerializeField][Range(1f, 10f)] private float rotateAngle = 3f;
@@ -25,7 +25,7 @@ public class BallController : MonoBehaviour
     {
         InitializeBall();   
         rb2d = GetComponent<Rigidbody2D>();
-        
+        //trailRenderer = GetComponent<TrailRenderer>();
     }
 
 
@@ -41,6 +41,7 @@ public class BallController : MonoBehaviour
             rb2d.velocity = rb2d.velocity.normalized * speed;
         }
 
+        //TrailRendererOnOff();
     }
     public void SetInitialSpeed(float speed)
     {
@@ -55,11 +56,17 @@ public class BallController : MonoBehaviour
         speed = initialspeed;
     }
 
+    public void InitializeBall(Vector2 direction)
+    {
+        this.direction = direction;
+        speed = initialspeed;
+    }
+
     public void SpeedChange(float changeSpeed)
     {
         if(changeSpeed > 0 && speed != initialspeed) { return; }        // 이미 스피드업을 먹은 상태
         direction = rb2d.velocity.normalized;
-        speed += changeSpeed;
+        speed = Mathf.Max(initialspeed, speed + changeSpeed);
         rb2d.velocity = direction * speed;
     }
 
@@ -68,6 +75,14 @@ public class BallController : MonoBehaviour
         power = changePower;
     }
 
+    //private void TrailRendererOnOff()
+    //{
+    //    if (rb2d.velocity.magnitude > initialspeed)
+    //    {
+    //        trailRenderer.enabled = true;
+    //    }
+    //    else trailRenderer.enabled = false;
+    //}
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (IsLayerMatched(paddleLayer, collision.gameObject.layer))       // 패들과 충돌 시 방향 전환, 고쳐야 함
@@ -129,6 +144,7 @@ public class BallController : MonoBehaviour
 
     private Vector2 DirectionAfterCollision(Vector2 normal)       // 충돌 후 방향 계산
     {
+        
         float angleBetweenVectors = getAngle(-direction, normal);
         Vector2 reflectDirection = Rotate(-direction, angleBetweenVectors + Mathf.Clamp(angleBetweenVectors, -90 + threshold, 90 - threshold)).normalized;  // 최대 반사각을 90-Threshold로 잡음
         return reflectDirection;

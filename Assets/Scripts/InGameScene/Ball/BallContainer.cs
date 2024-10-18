@@ -79,7 +79,7 @@ public class BallContainer : MonoBehaviour
         }
         foreach (Transform transform in activechild)            // 활성화된 공에 공 개수를 몇배로 함
         {
-            for (int i = 0; i < multiplier; i++)
+            for (int i = 1; i < multiplier; i++)
             {
                 if (activeBalls >= maxBallNumber) return;
                 GameObject ball = SpawnFromPool("Ball");
