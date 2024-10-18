@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,14 +7,14 @@ public class ItemContainer : MonoBehaviour
 {
     [SerializeField] private GameObject itemPrefab;
 
-    private Dictionary<Item.Type, float> typeProbabilityWeight;
+    public Dictionary<Item.Type, float> typeProbabilityWeight { get; private set; }
     private float typeTotalWeight;
 
-    private void Awake()
+    //아이템 생성 가중치
+    public void ResetItemTypeWeight()
     {
         typeProbabilityWeight = new Dictionary<Item.Type, float>();
 
-        //아이템 생성 가중치
         typeProbabilityWeight.Add(Item.Type._NONE,             15.0f); // 생성 안함
         typeProbabilityWeight.Add(Item.Type.BonusLife,          0.1f); // 목숨 추가
         typeProbabilityWeight.Add(Item.Type.PaddleSizeUp,       0.5f); // 패들 길이 증가
@@ -28,10 +29,17 @@ public class ItemContainer : MonoBehaviour
         typeTotalWeight = 0;
         foreach (KeyValuePair<Item.Type, float> typeWeight in typeProbabilityWeight) typeTotalWeight += typeWeight.Value;
     }
+    public void SetItemTypeWeight(Item.Type type, float value) // 특정 아이템의 출현 가중치 설정
+    {
+        typeProbabilityWeight[type] = value;
+
+        typeTotalWeight = 0;
+        foreach (KeyValuePair<Item.Type, float> typeWeight in typeProbabilityWeight) typeTotalWeight += typeWeight.Value;
+    }
 
     public void RandomItemCreation(float x, float y)
     {
-        float randomValue = Random.Range(0, typeTotalWeight);
+        float randomValue = UnityEngine.Random.Range(0, typeTotalWeight);
         float cumulativeWeight = 0;
         Item.Type selectedItemType = Item.Type._NONE;
         bool isSelected = false;
@@ -53,7 +61,17 @@ public class ItemContainer : MonoBehaviour
         GameObject itemInstance = Instantiate(itemPrefab);
         itemInstance.transform.SetParent(transform);
         Item item = itemInstance.GetComponent<Item>();
-        item.InitializeItem(x, y, selectedItemType);
+        item.InitializeItem(x, y, selectedItemType, Vector2.zero);
+    }
+
+    public void ItemCreation(Item.Type type, float x, float y, Vector2 initialSpeed)
+    {
+        if (type < 0 || type >= Item.Type._MAX) return;
+
+        GameObject itemInstance = Instantiate(itemPrefab);
+        itemInstance.transform.SetParent(transform);
+        Item item = itemInstance.GetComponent<Item>();
+        item.InitializeItem(x, y, type, initialSpeed);
     }
 
     public void Clear()

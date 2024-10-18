@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1285399055280588365}
   - component: {fileID: 407724851695948601}
+  - component: {fileID: 2611231923056907314}
   m_Layer: 0
-  m_Name: BlockContainer
+  m_Name: Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,3 +50,16 @@ MonoBehaviour:
   blockInvincible: {fileID: 7743167549755174983, guid: 525cb885e39dc9e44bd71537a2e59241, type: 3}
   itemContainer: {fileID: 0}
   StageIndex: 0
+--- !u!114 &2611231923056907314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8619593006020638886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8957c38fbabdc4642b0e9972f582a605, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemContainer: {fileID: 0}

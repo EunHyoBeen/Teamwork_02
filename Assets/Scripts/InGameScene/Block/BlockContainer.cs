@@ -6,24 +6,27 @@ using static Unity.Collections.AllocatorManager;
 
 public class BlockContainer : MonoBehaviour
 {
-    [SerializeField] private GameObject blockRectangle;
-    [SerializeField] private GameObject blockCircle;
-    [SerializeField] private GameObject blockInvincible;
+    [SerializeField] protected GameObject blockRectangle;
+    [SerializeField] protected GameObject blockCircle;
+    [SerializeField] protected GameObject blockInvincible;
 
     [SerializeField] private ItemContainer itemContainer;
-
-    [SerializeField] private int StageIndex;
 
     private int blockRemains;
 
     public event Action OnAllBlockDestroyed;
-
+    
     /// <summary>
     /// stageIndex : 스테이지 번호. 현재 1만 받음
     /// </summary>
     /// <param name="stageIndex"></param>
-    public void DeployBlock(int stageIndex)
+    public void SetStage(int stageIndex)
     {
+        itemContainer.ResetItemTypeWeight();
+
+
+        #region Stage Block Deployment(Detailed adjustment of item appearance probability)
+
         blockRemains = 0;
 
         int[,] BlockMap_R = null;
@@ -72,18 +75,10 @@ public class BlockContainer : MonoBehaviour
                                              { 2, 2, 2, 2, 2, 2, } };
                 break;
             case 4:
-                BlockMap_R = new int[12, 8] { { 3, 1, 1, 1, 1, 1, 1, 3 },
-                                              { 3, 1, 1, 1, 1, 1, 1, 3 },
-                                              { 3, 1, 1, 1, 1, 1, 1, 3 },
-                                              { 3, 1, 1, 1, 1, 1, 1, 3 },
-                                              { 3, 1, 1, 1, 1, 1, 1, 3 },
-                                              { 3, 1, 1, 1, 1, 1, 1, 3 },
-                                              { 3, 1, 1, 1, 1, 1, 1, 3 },
-                                              { 3, 1, 1, 1, 1, 1, 1, 3 },
-                                              { 3, 1, 1, 1, 1, 1, 1, 3 },
-                                              { 3, 1, 1, 1, 1, 1, 1, 3 },
-                                              { 3, 1, 1, 1, 1, 1, 1, 3 },
-                                              { 5, 5, 5, 5, 5, 5, 5, 5 } };
+                yCenter_R = 0.5f;
+                BlockMap_R = new int[2, 10] { { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
+                                              { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
+                itemContainer.SetItemTypeWeight(Item.Type.PaddleSizeUp, 50f);
                 break;
             case 5:
                 BlockMap_R = new int[10, 7] { {10,10,10,10,10,10,10 },
@@ -110,14 +105,15 @@ public class BlockContainer : MonoBehaviour
                 InstantiateInvincibleBlock(0, 1, 2, 1);
                 InstantiateInvincibleBlock(2.2f, 1, 2, 1);
                 yCenter_R = 2.75f;
-                BlockMap_R = new int[8, 8] { { 0, 0, 0, 4, 4, 0, 0, 0 },
-                                             { 0, 0, 0, 4, 4, 0, 0, 0 },
-                                             { 0, 0, 4, 4, 4, 4, 0, 0 },
-                                             { 0, 0, 4, 4, 4, 4, 0, 0 },
-                                             { 0, 4, 4, 4, 4, 4, 4, 0 },
-                                             { 0, 4, 4, 4, 4, 4, 4, 0 },
-                                             { 4, 4, 4, 4, 4, 4, 4, 4 },
-                                             { 4, 4, 4, 4, 4, 4, 4, 4 } };
+                BlockMap_R = new int[8, 8] { { 0, 0, 0, 2, 2, 0, 0, 0 },
+                                             { 0, 0, 0, 2, 2, 0, 0, 0 },
+                                             { 0, 0, 2, 2, 2, 2, 0, 0 },
+                                             { 0, 0, 2, 2, 2, 2, 0, 0 },
+                                             { 0, 2, 2, 2, 2, 2, 2, 0 },
+                                             { 0, 2, 2, 2, 2, 2, 2, 0 },
+                                             { 2, 2, 2, 2, 2, 2, 2, 2 },
+                                             { 2, 2, 2, 2, 2, 2, 2, 2 } };
+                itemContainer.SetItemTypeWeight(Item.Type.PaddleSpeedDown, 50f);
                 break;
             case 7:
                 InstantiateInvincibleBlock(-1.739f, 0.475f, 3.818f, 1);
@@ -125,7 +121,7 @@ public class BlockContainer : MonoBehaviour
                 InstantiateInvincibleBlock(-0.918f, 1.984f, 0.5f, 11.212f);
                 InstantiateInvincibleBlock(0.918f, 1.984f, 0.5f, 11.212f);
                 xInterval_R = 0.53f;
-                BlockMap_R = new int[11, 10] { { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
+                BlockMap_R = new int[11, 10] { { 1, 1, 1, 0, 0, 0, 0, 1, 1, 1 },
                                                { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
                                                { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
                                                { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
@@ -136,6 +132,22 @@ public class BlockContainer : MonoBehaviour
                                                { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
                                                { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
                                                { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 } };
+                itemContainer.SetItemTypeWeight(Item.Type.BallTriple, 100f);
+                break;
+
+
+
+
+            case 10:   // Boss Stage
+                xInterval_R = 0.75f;
+                yInterval_R = 0.5f;
+                BlockMap_R = new int[3, 6] { { 1, 1, 0, 0, 1, 1 },
+                                             { 1, 1, 0, 0, 1, 1 },
+                                             { 1, 1, 0, 0, 1, 1 } };
+                itemContainer.SetItemTypeWeight(Item.Type.PaddleStopDebuff, 0f);
+                itemContainer.SetItemTypeWeight(Item.Type._NONE, 5f);
+                itemContainer.SetItemTypeWeight(Item.Type.BallPowerUp, 10f);
+                itemContainer.SetItemTypeWeight(Item.Type.PaddleSizeUp, 10f);
                 break;
 
 
@@ -155,6 +167,8 @@ public class BlockContainer : MonoBehaviour
 
         if (BlockMap_R != null) DrawBlockMap(blockRectangle, BlockMap_R, xCenter_R, yCenter_R, xInterval_R, yInterval_R);
         if (BlockMap_C != null) DrawBlockMap(blockCircle, BlockMap_C, xCenter_C, yCenter_C, xInterval_C, yInterval_C);
+
+        #endregion
     }
 
     private void DrawBlockMap(GameObject blockPrefab, int[,] blockMap, float xCenter, float yCenter, float xInterval, float yInterval)
@@ -181,8 +195,8 @@ public class BlockContainer : MonoBehaviour
         GameObject blockInstance = Instantiate(blockPrefab);
         blockInstance.transform.SetParent(transform);
         Block block = blockInstance.GetComponent<Block>();
-        block.OnBreak += BreakBlock;
-        block.InitializeBlock(x, y, health);
+        block.OnBreak += BlockBreaked;
+        block.InitializeBlock(x, y, health, Vector2.zero);
         blockRemains++;
     }
 
@@ -191,13 +205,15 @@ public class BlockContainer : MonoBehaviour
         GameObject blockInstance = Instantiate(blockInvincible);
         blockInstance.transform.SetParent(transform);
         Block block = blockInstance.GetComponent<Block>();
-        block.InitializeInvincibleBlock(x, y, width, height);
+        block.InitializeInvincibleBlock(x, y, width, height, Vector2.zero);
     }
 
-    private void BreakBlock(float x, float y)
+    protected void BlockBreaked(float x, float y)
     {
         blockRemains--;
         itemContainer.RandomItemCreation(x, y);
+
+        // 게임 클리어
         if (blockRemains <= 0)
         {
             OnAllBlockDestroyed?.Invoke();
