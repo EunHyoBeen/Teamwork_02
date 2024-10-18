@@ -18,8 +18,8 @@ public class BallController : MonoBehaviour
     private Rigidbody2D rb2d;
     //private TrailRenderer trailRenderer;
 
-    [SerializeField][Range(1f, 20f)] private float threshold = 5f;
-    [SerializeField][Range(1f, 10f)] private float rotateAngle = 3f;
+    [SerializeField][Range(1f, 20f)] private float threshold = 15f;
+    [SerializeField][Range(1f, 10f)] private float rotateAngle = 7f;
 
     private void Awake()
     {
@@ -131,7 +131,7 @@ public class BallController : MonoBehaviour
     {
         float difX = this.transform.position.x - transform.position.x;
         difX = transform.localScale.x / 2 - difX;
-        float rad = Mathf.Clamp((difX / transform.localScale.x) * 180, 3, 177) * Mathf.Deg2Rad;
+        float rad = Mathf.Clamp((difX / transform.localScale.x) * 180, 15, 165) * Mathf.Deg2Rad;        // 15~165도 사이의 각도로 튕겨나감
         float newdirectionX = Mathf.Cos(rad);
         float newdirectionY = Mathf.Sin(rad);
         if (this.transform.position.y > transform.position.y)
@@ -169,9 +169,10 @@ public class BallController : MonoBehaviour
         {
             return Rotate(direction, -rotateAngle * Mathf.Deg2Rad);
         }
-        else // if (degree < -180 + Threshold || degree < Threshold && degree >= 0)   // 공의 각도를 +해야할때 (-180도에 가깝거나, 양수중에 0도에 가까울 때)
+        else  if (degree < -180 + threshold || degree < threshold && degree >= 0)   // 공의 각도를 +해야할때 (-180도에 가깝거나, 양수중에 0도에 가까울 때)
         {
             return Rotate(direction, rotateAngle * Mathf.Deg2Rad);
         }
+        return direction;
     }
 }

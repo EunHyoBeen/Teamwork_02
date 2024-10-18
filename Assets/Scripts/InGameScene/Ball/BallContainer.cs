@@ -26,8 +26,8 @@ public class BallContainer : MonoBehaviour
             {
                 GameObject obj = Instantiate(pool.prefab);
                 obj.transform.SetParent(transform);
+                obj.GetComponent<BallController>().SetInitialSpeed(initialSpeed);           //각각의 공에 초기 속도 따로 지정
                 obj.SetActive(false);
-                obj.GetComponent<BallController>().SetInitialSpeed(initialSpeed);
                 objectPool.Enqueue(obj);
             }
             PoolDictionary.Add(pool.tag, objectPool);
@@ -46,7 +46,7 @@ public class BallContainer : MonoBehaviour
         return obj;
     }
 
-    public void InitialSpeedChange(float speed)
+    public void InitialSpeedChange(float speed)                 // 스테이지 시작시 모든 공의 초기속도 지정할 때 쓰일 함수
     {
         initialSpeed = speed;
     }
@@ -88,14 +88,16 @@ public class BallContainer : MonoBehaviour
         }
     }
 
-    public void ResetBalls()
+    public void ResetBalls()                    // 모든 공 비활성화
     {
-        foreach (Transform child in transform)                  // 현재 활성화 된 공을 리스트에 추가
+        foreach (Transform child in transform)      
         {
             child.gameObject.SetActive(false);
         }
         activeBalls = 0;
     }
+
+
     //public void OnDeath()
     //{
     //    if (AllBallsInactive)
@@ -104,7 +106,7 @@ public class BallContainer : MonoBehaviour
     //    }
     //}
 
-    public bool AllBallsFall()
+    public bool AllBallsFall()      // 모든 공이 떨어져서 비활성화 됐는지
     {
         return activeBalls == 0;
     }
