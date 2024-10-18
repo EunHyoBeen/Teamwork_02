@@ -74,11 +74,10 @@ public class StageSelect : MonoBehaviour
     {
         InGameManager.StageResult stageResult = GameManager.Instance.stageResult;
         DataManager.GameData gameData = GameManager.Instance.gameData;
-//        stageResult.isClear = true;
+        stageResult.isClear = true;
         if (stageResult.isClear)
         {
             gameData.StageUnlock[stageResult.stageIndex + 1] = true;
-//            gameData.StageUnlock[2] = true;
         }
         else 
         {
