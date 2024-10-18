@@ -17,10 +17,7 @@ public class PaddleMovement : MonoBehaviour
     
     public void SetMovementDirection(Vector2 direction)
     {
-        if (!isStopped)
-        {
-            movementDirection = direction;
-        }
+        movementDirection = direction;
     }
 
     private void FixedUpdate()
@@ -44,5 +41,10 @@ public class PaddleMovement : MonoBehaviour
     public void AdjustPaddleSpeed(float newSpeedMultiplier)
     {
         speedMultiplier = newSpeedMultiplier;
+    }
+
+    public void ResumeMovement()
+    {
+        isStopped = false;
     }
 }
