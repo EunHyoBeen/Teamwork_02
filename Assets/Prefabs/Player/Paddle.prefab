@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b3577198fed8d4eaa9082dec8ec94b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerManager: {fileID: 0}
+  playerManager: {fileID: 2179823403320655237, guid: e6252457adb8f274a844f254d11c4552, type: 3}
   ballContainer: {fileID: 0}
   playerID: 1
 --- !u!114 &8220748569182500538
