@@ -14,6 +14,8 @@ public class BallContainer : MonoBehaviour
     private int maxBallNumber = 20;
     public List<Pool> Pools;
     public Dictionary<string, Queue<GameObject>> PoolDictionary;
+    [SerializeField][Range(0f, 20f)] private float initialSpeed = 5f;
+
     private void Awake()
     {
         PoolDictionary = new Dictionary<string, Queue<GameObject>>();
@@ -25,7 +27,7 @@ public class BallContainer : MonoBehaviour
                 GameObject obj = Instantiate(pool.prefab);
                 obj.transform.SetParent(transform);
                 obj.SetActive(false);
-                //obj.GetComponent<BallController>().OnDeath += OnDeath();
+                obj.GetComponent<BallController>().SetInitialSpeed(initialSpeed);
                 objectPool.Enqueue(obj);
             }
             PoolDictionary.Add(pool.tag, objectPool);
@@ -44,7 +46,10 @@ public class BallContainer : MonoBehaviour
         return obj;
     }
 
-
+    public void InitialSpeedChange(float speed)
+    {
+        initialSpeed = speed;
+    }
 
     public void PowerChange(int power)                          // 컨테이너 안의 모든 공의 공격력을 power로 맞춤
     {
@@ -82,6 +87,15 @@ public class BallContainer : MonoBehaviour
             }
         }
     }
+
+    public void ResetBalls()
+    {
+        foreach (Transform child in transform)                  // 현재 활성화 된 공을 리스트에 추가
+        {
+            child.gameObject.SetActive(false);
+        }
+        activeBalls = 0;
+    }
     //public void OnDeath()
     //{
     //    if (AllBallsInactive)
@@ -90,15 +104,8 @@ public class BallContainer : MonoBehaviour
     //    }
     //}
 
-    private bool AllBallsFall()
+    public bool AllBallsFall()
     {
-        foreach (Transform child in this.transform)
-        {
-            if (child.gameObject.activeSelf)
-            {
-                return false;
-            }
-        }
-        return true;
+        return activeBalls == 0;
     }
 }

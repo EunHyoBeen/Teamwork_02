@@ -174,8 +174,7 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 2048
-  initialspeed: 5
-  Threshold: 7
+  threshold: 7
   rotateAngle: 5
 --- !u!114 &1744190531523776163
 MonoBehaviour:

@@ -10,7 +10,7 @@ public class BallController : MonoBehaviour
     [SerializeField] private LayerMask bottomLayer;
     [SerializeField] private LayerMask blockLayer;
     [SerializeField] private LayerMask wallLayer;
-    [SerializeField][Range(0f, 20f)] private float initialspeed = 5f;
+    private float initialspeed;
     private float speed;
     //private PlayerManager player;
     private Vector2 direction;
@@ -34,13 +34,17 @@ public class BallController : MonoBehaviour
         InitializeBall();
         rb2d.velocity = direction * speed;
     }
-    private void Update()
+    private void Update()                       // 공이 물리 엔진에 의해 속도가 내려갔을때 원래 속도로 돌림
     {
         if(rb2d.velocity.magnitude < speed)
         {
             rb2d.velocity = rb2d.velocity.normalized * speed;
         }
 
+    }
+    public void SetInitialSpeed(float speed)
+    {
+        initialspeed = speed;
     }
 
     public void InitializeBall()
@@ -53,7 +57,7 @@ public class BallController : MonoBehaviour
 
     public void SpeedChange(float changeSpeed)
     {
-        if(changeSpeed > 0 && speed != initialspeed) { return; }
+        if(changeSpeed > 0 && speed != initialspeed) { return; }        // 이미 스피드업을 먹은 상태
         direction = rb2d.velocity.normalized;
         speed += changeSpeed;
         rb2d.velocity = direction * speed;
@@ -74,7 +78,8 @@ public class BallController : MonoBehaviour
 
         else if (IsLayerMatched(bottomLayer, collision.gameObject.layer))         // 바닥과 충돌 시 사라짐
         {
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+
         }
 
         else                                                                // 벽과 블럭에 충돌 시 방향전환
@@ -86,7 +91,7 @@ public class BallController : MonoBehaviour
         }
 
 
-        if(IsLayerMatched(wallLayer, collision.gameObject.layer))
+        if(IsLayerMatched(wallLayer, collision.gameObject.layer))           // 벽에 충돌 시 미세 각도 조정
         {
             direction = rb2d.velocity.normalized;
             float degree = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -94,7 +99,7 @@ public class BallController : MonoBehaviour
             rb2d.velocity = direction * speed;
         }
         
-        if (IsLayerMatched(blockLayer, collision.gameObject.layer))
+        if (IsLayerMatched(blockLayer, collision.gameObject.layer))         // 블럭과 충돌 시 블럭에 데미지
         {
             Block block = collision.gameObject.GetComponent<Block>();
             block.GetDamage(power);
@@ -102,7 +107,12 @@ public class BallController : MonoBehaviour
 
     }
 
-    private Vector2 DirectionAfterPaddleCollision(Transform transform)
+    private bool IsLayerMatched(int layerMask, int objectLayer)
+    {
+        return layerMask == (layerMask | (1 << objectLayer));
+    }
+
+    private Vector2 DirectionAfterPaddleCollision(Transform transform)          // 패들과 충돌 이후 방향 설정
     {
         float difX = this.transform.position.x - transform.position.x;
         difX = transform.localScale.x / 2 - difX;
@@ -115,11 +125,6 @@ public class BallController : MonoBehaviour
         }
         return new Vector2(newdirectionX, -newdirectionY).normalized;
         
-    }
-
-    private bool IsLayerMatched(int layerMask, int objectLayer)
-    {
-        return layerMask == (layerMask | (1 << objectLayer));
     }
 
     private Vector2 DirectionAfterCollision(Vector2 normal)       // 충돌 후 방향 계산
@@ -148,7 +153,7 @@ public class BallController : MonoBehaviour
         {
             return Rotate(direction, -rotateAngle * Mathf.Deg2Rad);
         }
-        else // if (degree < -180 + Threshold || degree < Threshold && degree >= 0)   // 공이 각도를 +해야할때 (-180도에 가깝거나, 양수중에 0도에 가까울 때)
+        else // if (degree < -180 + Threshold || degree < Threshold && degree >= 0)   // 공의 각도를 +해야할때 (-180도에 가깝거나, 양수중에 0도에 가까울 때)
         {
             return Rotate(direction, rotateAngle * Mathf.Deg2Rad);
         }
