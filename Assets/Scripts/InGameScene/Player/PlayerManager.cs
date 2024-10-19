@@ -21,7 +21,6 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        ballLaunched = false;
         SpawnAndAttachBall();
     }
 
@@ -106,7 +105,7 @@ public class PlayerManager : MonoBehaviour
             {
                 Vector2 launchDirection = arrowTransform.up;
 
-                //currentBall.GetComponent<BallController>.initializeBall(launchDirection);
+                currentBall.GetComponent<BallController>().InitializeBall(launchDirection);
 
                 ballRigidbody.velocity = launchDirection * 5;
 
