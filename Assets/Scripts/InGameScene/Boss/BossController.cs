@@ -12,6 +12,7 @@ public class BossController : MonoBehaviour
     private SpriteRenderer image;
     private Canvas canvas;
     private TextMeshProUGUI healthTxt;
+    private Animator animator;
 
     private int stageIndex;
 
@@ -29,9 +30,10 @@ public class BossController : MonoBehaviour
 
     // 이동 관련
     private float moveSpeed;
-    private Vector2 moveDestination;
-    private Vector2 moveVelocity;
     private MovingType moveType;
+    private Vector2 moveVelocity;
+    private float moveMaxSpeed;
+    private Vector2 moveDestination;
 
     // 사망 관련
     public event Action OnBossBreak;
@@ -42,12 +44,27 @@ public class BossController : MonoBehaviour
         stageIndex = _stageIndex;
 
         image = GetComponent<SpriteRenderer>();
-        //canvas = transform.GetChild(0).GetComponent<Canvas>();
-        //healthTxt = canvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        canvas = transform.GetChild(0).GetComponent<Canvas>();
+        healthTxt = canvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        animator = GetComponent<Animator>();
 
         switch (stageIndex)
         {
             case 10:
+                maxHealth = 50;
+                SetHealth(maxHealth);
+
+                invincibleState = false;
+                totalActionPhase = 10;
+                remainingTimeToNextPhase = 5;
+
+                moveSpeed = 1f;
+                moveType = MovingType.Constant;
+
+                enteringPhase = BossActionStage10;
+                break;
+
+            case 20:
                 maxHealth = 100;
                 SetHealth(maxHealth);
 
@@ -56,6 +73,7 @@ public class BossController : MonoBehaviour
                 remainingTimeToNextPhase = 5;
 
                 moveSpeed = 1f;
+                moveType = MovingType.Constant;
 
                 enteringPhase = BossActionStage10;
                 break;
@@ -68,25 +86,36 @@ public class BossController : MonoBehaviour
         actionPhase = 0;
 
         actionStopped = true;
+
+        moveDestination = transform.position;
     }
-    public void ActionStop(bool _spawnStopped)
+    public void ActionStop(bool _actionStopped)
     {
-        actionStopped = _spawnStopped;
+        actionStopped = _actionStopped;
     }
 
-    // 시간 지나면 다음 페이즈로
     private void Update()
     {
         if (actionStopped) return;
 
+        // 시간 지나면 다음 페이즈로
         remainingTimeToNextPhase -= Time.deltaTime;
-
         if (remainingTimeToNextPhase < 0)
         {
             actionPhase++;
             if (actionPhase >= totalActionPhase) actionPhase = 0;
 
             enteringPhase?.Invoke();
+        }
+
+        // 보스 이동
+        if (moveType == MovingType.Constant)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, moveDestination, moveSpeed * Time.deltaTime);
+        }
+        else
+        {
+            transform.position = Vector2.SmoothDamp(transform.position, moveDestination, ref moveVelocity, moveMaxSpeed);
         }
     }
 
@@ -95,7 +124,8 @@ public class BossController : MonoBehaviour
         switch (actionPhase)
         {
             case 0: // 대기, 무적 해제
-
+                invincibleState = false;
+                animator.SetBool("isInvincible", false);
                 remainingTimeToNextPhase = 5;
                 break;
             case 1: // Paddle Stop Debuff 폭격
@@ -106,13 +136,15 @@ public class BossController : MonoBehaviour
                 remainingTimeToNextPhase = 5;
                 break;
             case 3: // 우로이동
-
+                moveDestination = new Vector2(transform.position.x + 1, transform.position.y);
                 remainingTimeToNextPhase = 1;
                 break;
             case 4: // 좌로 이동
+                moveDestination = new Vector2(transform.position.x - 2, transform.position.y);
                 remainingTimeToNextPhase = 2;
                 break;
             case 5: // 우로 이동(원위치로)
+                moveDestination = new Vector2(transform.position.x + 1, transform.position.y);
                 remainingTimeToNextPhase = 1;
                 break;
             case 6: // 대기
@@ -126,7 +158,9 @@ public class BossController : MonoBehaviour
                 remainingTimeToNextPhase = 5;
                 break;
             case 9: // 무적
-                remainingTimeToNextPhase = 3;
+                invincibleState = true;
+                animator.SetBool("isInvincible", true);
+                remainingTimeToNextPhase = 3.35f;
                 break;
         }
     }
@@ -153,17 +187,20 @@ public class BossController : MonoBehaviour
     {
         value = Mathf.Clamp(value, 0, maxHealth);
         health = value;
-
+        
         if (health > 0)
         {
+            Debug.Log(health);
             // 체력 닳을 시의 동작 추가
-            //healthTxt.text = health.ToString();
+            healthTxt.text = health.ToString();
         }
         else
         {
             if (alreadyDestroyed == false)
             {
                 alreadyDestroyed = true;
+
+                actionStopped = true;
 
                 // 파괴됐을 시의 동작 추가
                 canvas.gameObject.SetActive(false);

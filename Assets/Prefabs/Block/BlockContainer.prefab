@@ -46,6 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockRectangle: {fileID: 7743167549755174983, guid: 257514f34f7fe7849a09ff1bc2c800c5, type: 3}
   blockCircle: {fileID: 693047294205735047, guid: 2325271c590278f4b93d7d641407691b, type: 3}
+  blockSquare: {fileID: 7743167549755174983, guid: fcba4f7cee6e4844b98d8b9c2529e9a8, type: 3}
   blockInvincible: {fileID: 7743167549755174983, guid: 525cb885e39dc9e44bd71537a2e59241, type: 3}
   itemContainer: {fileID: 0}
-  StageIndex: 0
