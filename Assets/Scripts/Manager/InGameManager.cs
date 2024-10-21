@@ -57,6 +57,8 @@ public class InGameManager : MonoBehaviour
         blockContainer.SetStage(stageIndex);
 
         Time.timeScale = 1;
+
+        player1.InitializePlayer();
     }
 
     protected virtual void PlayerOnLaunch()
