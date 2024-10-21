@@ -18,6 +18,7 @@ public class BallController : MonoBehaviour
     private int power;
     private Rigidbody2D rb2d;
     //private TrailRenderer trailRenderer;
+    public event Action OnTouchFloor;
 
     [SerializeField][Range(1f, 20f)] private float threshold = 15f;
     [SerializeField][Range(1f, 10f)] private float rotateAngle = 7f;
@@ -80,14 +81,10 @@ public class BallController : MonoBehaviour
         power = changePower;
     }
 
-    //private void TrailRendererOnOff()
-    //{
-    //    if (rb2d.velocity.magnitude > initialspeed)
-    //    {
-    //        trailRenderer.enabled = true;
-    //    }
-    //    else trailRenderer.enabled = false;
-    //}
+    private void CallTouchFloor()
+    {
+        OnTouchFloor?.Invoke();
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (IsLayerMatched(paddleLayer, collision.gameObject.layer))       // 패들과 충돌 시 방향 전환, 고쳐야 함
@@ -99,7 +96,7 @@ public class BallController : MonoBehaviour
         else if (IsLayerMatched(bottomLayer, collision.gameObject.layer))         // 바닥과 충돌 시 사라짐
         {
             gameObject.SetActive(false);
-
+            CallTouchFloor();
         }
 
 
