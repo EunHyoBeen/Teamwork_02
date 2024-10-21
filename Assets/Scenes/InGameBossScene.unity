@@ -1656,6 +1656,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3443194933336089477, guid: cea9d746f8651b242a268b9175e63d4a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 600
+      objectReference: {fileID: 0}
     - target: {fileID: 3657128687314725927, guid: cea9d746f8651b242a268b9175e63d4a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -1831,6 +1835,10 @@ PrefabInstance:
     - target: {fileID: 6132454219969160344, guid: cea9d746f8651b242a268b9175e63d4a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ResumeGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 6281277974625121257, guid: cea9d746f8651b242a268b9175e63d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7863646273813100940, guid: cea9d746f8651b242a268b9175e63d4a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size

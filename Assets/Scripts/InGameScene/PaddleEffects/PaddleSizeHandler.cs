@@ -27,4 +27,10 @@ public class PaddleSizeHandler : MonoBehaviour
         boxCollider.size = spriteRenderer.size;
         boxCollider.offset = spriteRenderer.bounds.center - transform.position;
     }
+
+    public void ResetPaddleSize()
+    {
+        spriteRenderer.size = originalSize;
+        AdjustColliderSize();
+    }
 }
