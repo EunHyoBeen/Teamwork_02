@@ -70,10 +70,14 @@ public class DataManager : MonoBehaviour
     {
         public bool[] StageUnlock;
 
+        public InGameManager.GameMode GameMode;
+
         public GameData()
         {
             StageUnlock = new bool[100];
             StageUnlock[1] = true;
+
+            GameMode = InGameManager.GameMode.Alone;
 
             // 일단 디버깅 해야하니까 언락
             for (int i = 2; i < 50; i++)
