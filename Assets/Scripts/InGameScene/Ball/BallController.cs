@@ -14,7 +14,7 @@ public class BallController : MonoBehaviour
     private float speed;
     //private PlayerManager player;
     private Vector2 direction;
-    private int power = 1;
+    private int power;
     private Rigidbody2D rb2d;
     //private TrailRenderer trailRenderer;
 
@@ -54,12 +54,16 @@ public class BallController : MonoBehaviour
         float randomY = UnityEngine.Random.Range(-1f, 1f);
         direction = new Vector2(randomX, randomY).normalized;
         speed = initialspeed;
+        power = 1;
+        //trailRenderer.enabled = false;
     }
 
     public void InitializeBall(Vector2 direction)
     {
         this.direction = direction;
         speed = initialspeed;
+        power = 1;
+        //trailRenderer.enabled = false;
     }
 
     public void SpeedChange(float changeSpeed)
@@ -131,7 +135,7 @@ public class BallController : MonoBehaviour
     {
         float difX = this.transform.position.x - transform.position.x;
         difX = transform.localScale.x / 2 - difX;
-        float rad = Mathf.Clamp((difX / transform.localScale.x) * 180, 15, 165) * Mathf.Deg2Rad;        // 15~165도 사이의 각도로 튕겨나감
+        float rad = Mathf.Clamp((difX / transform.localScale.x) * 180, 40, 140) * Mathf.Deg2Rad;        // 15~165도 사이의 각도로 튕겨나감
         float newdirectionX = Mathf.Cos(rad);
         float newdirectionY = Mathf.Sin(rad);
         if (this.transform.position.y > transform.position.y)
