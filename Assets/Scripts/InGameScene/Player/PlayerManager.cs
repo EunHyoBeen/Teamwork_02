@@ -36,7 +36,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void InitializePlayer(int x, int y)
+    public void InitializePlayer(float x, float y)
     {
         arrowTransform.gameObject.SetActive(true);
 

@@ -181,6 +181,7 @@ public class InGameManager : MonoBehaviour
     public class StageParameter
     {
         public int stageIndex;
+        public InGameManager.GameMode gameMode;
     }
 
     public class StageResult
