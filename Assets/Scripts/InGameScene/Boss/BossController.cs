@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class BossController : MonoBehaviour
 {
     [SerializeField] private ItemContainer itemContainer;
-    //[SerializeField] private ClassName healthBar;
+    [SerializeField] private BossHealthBar healthBar;
 
     private SpriteRenderer image;
     private Canvas canvas;
-    private TextMeshProUGUI healthTxt;
     private Animator animator;
 
     private int stageIndex;
@@ -45,12 +45,13 @@ public class BossController : MonoBehaviour
 
         image = GetComponent<SpriteRenderer>();
         canvas = transform.GetChild(0).GetComponent<Canvas>();
-        healthTxt = canvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         animator = GetComponent<Animator>();
 
         switch (stageIndex)
         {
             case 10:
+                transform.position = new Vector3(0, 4.3f, 0);
+
                 maxHealth = 50;
                 SetHealth(maxHealth);
 
@@ -83,6 +84,7 @@ public class BossController : MonoBehaviour
                 remainingTimeToNextPhase = 100;
                 break;
         }
+
         actionPhase = 0;
 
         actionStopped = true;
@@ -188,9 +190,10 @@ public class BossController : MonoBehaviour
         value = Mathf.Clamp(value, 0, maxHealth);
         health = value;
         
+        healthBar.SetHealthBar(maxHealth, value);
+
         if (health > 0)
         {
-            healthTxt.text = health.ToString();
             if (value < maxHealth)
             {
                 animator.SetTrigger("isHit");

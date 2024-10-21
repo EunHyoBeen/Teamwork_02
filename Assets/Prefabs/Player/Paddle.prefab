@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5616777690213864503
 Transform:
   m_ObjectHideFlags: 0
@@ -192,9 +192,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b3577198fed8d4eaa9082dec8ec94b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerManager: {fileID: 2179823403320655237, guid: e6252457adb8f274a844f254d11c4552, type: 3}
-  ballContainer: {fileID: 1541627449012013926, guid: 7001209b7f8cead4ba9a94d8f2312dd3, type: 3}
-  particleManager: {fileID: 7554815258310756333, guid: dee62436a7e7dda448b4509f1cf2a441, type: 3}
+  playerManager: {fileID: 0}
+  ballContainer: {fileID: 0}
+  particleManager: {fileID: 0}
   playerID: 1
   paddleIndex: 0
 --- !u!114 &8220748569182500538

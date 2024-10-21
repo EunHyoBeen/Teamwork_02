@@ -12,6 +12,7 @@ public class BlockContainer : MonoBehaviour
     [SerializeField] protected GameObject blockInvincible;
 
     [SerializeField] private ItemContainer itemContainer;
+    [SerializeField] private BoostItem boostItemInfo;
 
     private int blockRemains;
 
@@ -24,7 +25,7 @@ public class BlockContainer : MonoBehaviour
     public void SetStage(int stageIndex)
     {
         itemContainer.ResetItemTypeWeight();
-
+        Item.Type[] boostedItems = null;
 
         #region Stage Block Deployment(+ Detailed adjustment of item appearance probability)
 
@@ -86,6 +87,7 @@ public class BlockContainer : MonoBehaviour
                 BlockMap_R = new int[2, 10] { { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
                                               { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
                 itemContainer.SetItemTypeWeight(Item.Type.PaddleSizeUp, 50f);
+                boostedItems = new Item.Type[] { Item.Type.PaddleSizeUp };
                 break;
             case 5:
                 BlockMap_R = new int[10, 7] { {10,10,10,10,10,10,10 },
@@ -121,6 +123,7 @@ public class BlockContainer : MonoBehaviour
                                              { 2, 2, 2, 2, 2, 2, 2, 2 },
                                              { 2, 2, 2, 2, 2, 2, 2, 2 } };
                 itemContainer.SetItemTypeWeight(Item.Type.PaddleSpeedDown, 50f);
+                boostedItems = new Item.Type[] { Item.Type.PaddleSpeedDown };
                 break;
             case 7:
                 InstantiateInvincibleBlock(-1.739f, 0.475f, 3.818f, 1);
@@ -140,6 +143,7 @@ public class BlockContainer : MonoBehaviour
                                                { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
                                                { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 } };
                 itemContainer.SetItemTypeWeight(Item.Type.BallTriple, 100f);
+                boostedItems = new Item.Type[] { Item.Type.BallTriple };
                 break;
             case 8:
                 InstantiateInvincibleBlock(-1.9f, 0.0f, 3.2f, 1);
@@ -239,6 +243,8 @@ public class BlockContainer : MonoBehaviour
         if (BlockMap_R != null) DrawBlockMap(blockRectangle, BlockMap_R, xCenter_R, yCenter_R, xInterval_R, yInterval_R);
         if (BlockMap_C != null) DrawBlockMap(blockCircle, BlockMap_C, xCenter_C, yCenter_C, xInterval_C, yInterval_C);
         if (BlockMap_S != null) DrawBlockMap(blockSquare, BlockMap_S, xCenter_S, yCenter_S, xInterval_S, yInterval_S);
+
+        boostItemInfo.ShowBoostItem(boostedItems);
 
         #endregion
     }

@@ -195,18 +195,6 @@ PrefabInstance:
       propertyPath: paddleEffectManager
       value: 
       objectReference: {fileID: 1773527007}
-    - target: {fileID: 2179823403320655237, guid: e6252457adb8f274a844f254d11c4552, type: 3}
-      propertyPath: paddleEffectManagers.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2179823403320655237, guid: e6252457adb8f274a844f254d11c4552, type: 3}
-      propertyPath: paddleEffectManagers.Array.data[0]
-      value: 
-      objectReference: {fileID: 1773527007}
-    - target: {fileID: 2179823403320655237, guid: e6252457adb8f274a844f254d11c4552, type: 3}
-      propertyPath: paddleEffectManagers.Array.data[1]
-      value: 
-      objectReference: {fileID: 1773527007}
     - target: {fileID: 8224578333071645450, guid: e6252457adb8f274a844f254d11c4552, type: 3}
       propertyPath: m_Name
       value: Player
@@ -257,10 +245,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6908728096086697125, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
-      propertyPath: paddleIndex
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6908728096086697125, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
       propertyPath: ballContainer
       value: 
       objectReference: {fileID: 510037920}
@@ -275,10 +259,6 @@ PrefabInstance:
     - target: {fileID: 9029653214287138580, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
       propertyPath: m_Name
       value: Paddle2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9029653214287138580, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9103724133594618602, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -449,6 +429,10 @@ PrefabInstance:
     - target: {fileID: 3040330811310663668, guid: baa629b9a9d943c4e8233d8ef667fc64, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3573032995350596946, guid: baa629b9a9d943c4e8233d8ef667fc64, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -627,10 +611,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arrow
       objectReference: {fileID: 0}
-    - target: {fileID: 4538678910203282609, guid: b663ba45416e5b242a482c01be65c9c3, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -708,6 +688,10 @@ PrefabInstance:
     - target: {fileID: 233524331635943696, guid: cea9d746f8651b242a268b9175e63d4a, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -55
+      objectReference: {fileID: 0}
+    - target: {fileID: 670990341446246244, guid: cea9d746f8651b242a268b9175e63d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1585199514598732981, guid: cea9d746f8651b242a268b9175e63d4a, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -821,6 +805,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5192726256278114351, guid: cea9d746f8651b242a268b9175e63d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5793442635216794221, guid: cea9d746f8651b242a268b9175e63d4a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -881,6 +869,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 370104678476717721, guid: cea9d746f8651b242a268b9175e63d4a, type: 3}
   m_PrefabInstance: {fileID: 1018413427}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1018413431 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1563667086922143685, guid: cea9d746f8651b242a268b9175e63d4a, type: 3}
+  m_PrefabInstance: {fileID: 1018413427}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f3b80b362cb42f89cbc08c60c1a9c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1018413432 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2237703679158128674, guid: cea9d746f8651b242a268b9175e63d4a, type: 3}
+  m_PrefabInstance: {fileID: 1018413427}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b34216b65746249e68f5bff8caa2a2ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!96 &1025296405 stripped
 TrailRenderer:
   m_CorrespondingSourceObject: {fileID: 3848054374885981233, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
@@ -1002,10 +1012,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player2
       objectReference: {fileID: 0}
-    - target: {fileID: 1921796107862052851, guid: 12b7a1851b8a59c498767fa67b0b198e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2057576013681406205, guid: 12b7a1851b8a59c498767fa67b0b198e, type: 3}
       propertyPath: ballContainer
       value: 
@@ -1024,18 +1030,6 @@ PrefabInstance:
       objectReference: {fileID: 317123409}
     - target: {fileID: 2057576013681406205, guid: 12b7a1851b8a59c498767fa67b0b198e, type: 3}
       propertyPath: paddleEffectManager
-      value: 
-      objectReference: {fileID: 1773527007}
-    - target: {fileID: 2057576013681406205, guid: 12b7a1851b8a59c498767fa67b0b198e, type: 3}
-      propertyPath: paddleEffectManagers.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2057576013681406205, guid: 12b7a1851b8a59c498767fa67b0b198e, type: 3}
-      propertyPath: paddleEffectManagers.Array.data[0]
-      value: 
-      objectReference: {fileID: 1773527007}
-    - target: {fileID: 2057576013681406205, guid: 12b7a1851b8a59c498767fa67b0b198e, type: 3}
-      propertyPath: paddleEffectManagers.Array.data[1]
       value: 
       objectReference: {fileID: 1773527007}
     - target: {fileID: 3700130082934992495, guid: 12b7a1851b8a59c498767fa67b0b198e, type: 3}
@@ -1224,6 +1218,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1018413428}
     - target: {fileID: 5473659830359366119, guid: d8371857e0b987346879cce035c3c8b8, type: 3}
+      propertyPath: playerHealth
+      value: 
+      objectReference: {fileID: 1018413431}
+    - target: {fileID: 5473659830359366119, guid: d8371857e0b987346879cce035c3c8b8, type: 3}
       propertyPath: blockContainer
       value: 
       objectReference: {fileID: 1740089700}
@@ -1292,10 +1290,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7184236002887333101, guid: e5fddcb93a1f7c04c8377533f3ad949a, type: 3}
-      propertyPath: paddleIndex
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7184236002887333101, guid: e5fddcb93a1f7c04c8377533f3ad949a, type: 3}
       propertyPath: ballContainer
       value: 
       objectReference: {fileID: 1691396897}
@@ -1310,10 +1304,6 @@ PrefabInstance:
     - target: {fileID: 8954205459866540486, guid: e5fddcb93a1f7c04c8377533f3ad949a, type: 3}
       propertyPath: m_Name
       value: Paddle
-      objectReference: {fileID: 0}
-    - target: {fileID: 8954205459866540486, guid: e5fddcb93a1f7c04c8377533f3ad949a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1428,6 +1418,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 407724851695948601, guid: c305de2af1d39ea4a8eb31d03fa72968, type: 3}
+      propertyPath: boostItemInfo
+      value: 
+      objectReference: {fileID: 1018413432}
     - target: {fileID: 407724851695948601, guid: c305de2af1d39ea4a8eb31d03fa72968, type: 3}
       propertyPath: itemContainer
       value: 
@@ -1666,10 +1660,6 @@ PrefabInstance:
     - target: {fileID: 5127605023898185459, guid: 004df8c1e01b6c84fb95bdec3c100181, type: 3}
       propertyPath: m_Name
       value: Arrow2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5127605023898185459, guid: 004df8c1e01b6c84fb95bdec3c100181, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

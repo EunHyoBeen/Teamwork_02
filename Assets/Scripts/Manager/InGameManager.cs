@@ -11,6 +11,7 @@ public class InGameManager : MonoBehaviour
     [SerializeField] private BlockContainer blockContainer;
     [SerializeField] protected PlayerManager player1;
     [SerializeField] protected PlayerManager player2;
+    [SerializeField] protected PlayerHealth playerHealth;
 
     [SerializeField] protected RectTransform inGameMenu;
     [SerializeField] protected RectTransform clearMenu;
@@ -21,7 +22,7 @@ public class InGameManager : MonoBehaviour
     public int stageIndex;
 
     protected int player1Life, player2Life;
-    private bool player1HasBall, player2HasBall;
+    protected bool player1HasBall, player2HasBall;
 
     protected bool isPlaying;
     protected bool isRally; // 플레이어가 첫 공을 발사할 때 true로 전환됨
@@ -48,10 +49,10 @@ public class InGameManager : MonoBehaviour
         isPlaying = true;
         isRally = false;
 
-        //player2Life = 3; 지금 안씀
-        // TODO : 플레이어 런치 이벤트
-        //player1.OnLaunch += PlayerOnLaunch;
-        //player2.OnLaunch += PlayerOnLaunch;
+        player1.PlayerID = 1;
+        player2.PlayerID = 2;
+        player1.OnLaunchEvent += PlayerOnLaunch;
+        player2.OnLaunchEvent += PlayerOnLaunch;
         player1.OnDeathEvent += PlayerOnDeath;
         player2.OnDeathEvent += PlayerOnDeath;
 
@@ -63,14 +64,16 @@ public class InGameManager : MonoBehaviour
             player1Life = 3;
             player1HasBall = true;
             player1.InitializePlayer(0, -4);
+            playerHealth.DisplayHealth(3, 0);
         }
         else
         {
             player1Life = 3;
             player1HasBall = true;
             player2HasBall = true;
-            player1.InitializePlayer(-1, -4);
-            player2.InitializePlayer(1, -4);
+            player1.InitializePlayer(-1.5f, -4);
+            player2.InitializePlayer(1.5f, -4);
+            playerHealth.DisplayHealth(3, 0);
         }
 
         Time.timeScale = 1;
@@ -100,6 +103,7 @@ public class InGameManager : MonoBehaviour
         if (gameMode == GameMode.Alone)
         {
             player1Life--;
+            playerHealth.DisplayHealth(player1Life, 0);
 
             if (player1Life <= 0)
             {
@@ -115,16 +119,17 @@ public class InGameManager : MonoBehaviour
             if (player1HasBall == false && player2HasBall == false)
             {
                 player1Life--;
-            }
+                playerHealth.DisplayHealth(player1Life, 0);
 
-            if (player1Life <= 0)
-            {
-                GameOver();
-            }
-            else
-            {
-                player1.InitializePlayer(-1, -4);
-                player2.InitializePlayer(1, -4);
+                if (player1Life <= 0)
+                {
+                    GameOver();
+                }
+                else
+                {
+                    player1.InitializePlayer(-1.5f, -4);
+                    player2.InitializePlayer(1.5f, -4);
+                }
             }
         }
     }

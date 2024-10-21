@@ -12,12 +12,6 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private GameObject player2Life2;
     [SerializeField] private GameObject player2Life3;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        DisplayHealth(1, 2);
-    }
-
     public void DisplayHealth(int player1Health, int player2Health)
     {
         switch(player1Health)

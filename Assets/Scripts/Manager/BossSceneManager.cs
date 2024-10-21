@@ -11,6 +11,7 @@ public class BossSceneManager : InGameManager
     protected override void Start()
     {
         InGameManager.StageParameter stageParameter = GameManager.Instance.stageParameter;
+        gameMode = stageParameter.gameMode;
         stageIndex = stageParameter.stageIndex;
         // stage
         stageIndex = 10; //Debug
@@ -20,14 +21,32 @@ public class BossSceneManager : InGameManager
     protected override void ExecuteStage()
     {
         isPlaying = true;
+        isRally = false;
 
-        player1Life = 3;
-        player2Life = 3;
+        player1.PlayerID = 1;
+        player2.PlayerID = 2;
         // TODO : 플레이어 런치 이벤트
-        //player1.OnLaunch += PlayerOnLaunch;
-        //player2.OnLaunch += PlayerOnLaunch;
+        player1.OnLaunchEvent += PlayerOnLaunch;
+        player2.OnLaunchEvent += PlayerOnLaunch;
         player1.OnDeathEvent += PlayerOnDeath;
         player2.OnDeathEvent += PlayerOnDeath;
+
+        if (gameMode == GameMode.Alone)
+        {
+            player1Life = 3;
+            player1HasBall = true;
+            player1.InitializePlayer(0, -4);
+            playerHealth.DisplayHealth(3, 0);
+        }
+        else
+        {
+            player1Life = 3;
+            player1HasBall = true;
+            player2HasBall = true;
+            player1.InitializePlayer(-1.5f, -4);
+            player2.InitializePlayer(1.5f, -4);
+            playerHealth.DisplayHealth(3, 0);
+        }
 
         //blockContainer.OnAllBlockDestroyed += GameClear; // 보스 처리로 변경
         boss.OnBossBreak += GameClear;
@@ -41,7 +60,6 @@ public class BossSceneManager : InGameManager
         }
 
         Time.timeScale = 1;
-        PlayerOnLaunch();//Debug
     }
 
     protected override void PlayerOnLaunch()
@@ -64,13 +82,14 @@ public class BossSceneManager : InGameManager
 
         // 이벤트 및 오브젝트 해제
         blockContainerForBoss.Clear();
-        //player1.OnLaunch -= PlayerOnLaunch;
-        //player2.OnLaunch -= PlayerOnLaunch;
+        player1.OnLaunchEvent -= PlayerOnLaunch;
+        player2.OnLaunchEvent -= PlayerOnLaunch;
         player1.OnDeathEvent -= PlayerOnDeath;
         player2.OnDeathEvent -= PlayerOnDeath;
         //blockContainer.OnAllBlockDestroyed -= GameClear; // 보스 처리로 변경
         boss.OnBossBreak -= GameClear;
 
         ExecuteStage();
+        boss.InitializeBoss(stageIndex);
     }
 }
