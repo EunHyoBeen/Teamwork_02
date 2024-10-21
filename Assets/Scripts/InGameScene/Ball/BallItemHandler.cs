@@ -26,6 +26,11 @@ public class BallItemHandler : MonoBehaviour
         OnSpeedChange += ChangeRendererWhenSpeedUp;
     }
 
+    private void OnEnable()
+    {
+        spriteRenderer.sprite = normalSprite;
+        trailRenderer.enabled = false;
+    }
 
     public void PowerUpItem(int power)
     {

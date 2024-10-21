@@ -19,7 +19,7 @@ public class InGameManager : MonoBehaviour
 
     public int stageIndex;
 
-    public bool player1Alive, player2Alive;
+    protected int player1Life, player2Life;
 
     protected bool isPlaying;
     protected bool isRally; // 플레이어가 첫 공을 발사할 때 true로 전환됨
@@ -44,9 +44,9 @@ public class InGameManager : MonoBehaviour
     {
         isPlaying = true;
         isRally = false;
-        
-        player1Alive = true;
-        player2Alive = true;
+
+        player1Life = 3;
+        player2Life = 3;
         // TODO : 플레이어 런치 이벤트
         //player1.OnLaunch += PlayerOnLaunch;
         //player2.OnLaunch += PlayerOnLaunch;
@@ -75,14 +75,14 @@ public class InGameManager : MonoBehaviour
     {
         if (playerIndex == 1)
         {
-            player1Alive = false;
+            player1Life--;
         }
         else
         {
-            player2Alive = false;
+            player2Life--;
         }
 
-        if (player1Alive == false && player2Alive == false && isPlaying == true)
+        if (player1Life <= 0 && player2Life <= 0 && isPlaying == true)
         {
             GameOver();
         }
@@ -174,7 +174,8 @@ public class InGameManager : MonoBehaviour
 
     public enum GameMode
     {
-        Default_Alone, Default_Duo
+        Alone,
+        Duo_community, Duo_individual
     }
 
     public class StageParameter

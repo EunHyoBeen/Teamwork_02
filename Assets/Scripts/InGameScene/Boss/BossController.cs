@@ -190,9 +190,11 @@ public class BossController : MonoBehaviour
         
         if (health > 0)
         {
-            Debug.Log(health);
-            // 체력 닳을 시의 동작 추가
             healthTxt.text = health.ToString();
+            if (value < maxHealth)
+            {
+                animator.SetTrigger("isHit");
+            }
         }
         else
         {

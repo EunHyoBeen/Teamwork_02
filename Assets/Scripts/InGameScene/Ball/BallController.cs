@@ -10,13 +10,15 @@ public class BallController : MonoBehaviour
     [SerializeField] private LayerMask bottomLayer;
     [SerializeField] private LayerMask blockLayer;
     [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private LayerMask bossLayer;
     private float initialspeed;
     private float speed;
     //private PlayerManager player;
     private Vector2 direction;
-    private int power = 1;
+    private int power;
     private Rigidbody2D rb2d;
     //private TrailRenderer trailRenderer;
+    public event Action OnTouchFloor;
 
     [SerializeField][Range(1f, 20f)] private float threshold = 15f;
     [SerializeField][Range(1f, 10f)] private float rotateAngle = 7f;
@@ -54,12 +56,16 @@ public class BallController : MonoBehaviour
         float randomY = UnityEngine.Random.Range(-1f, 1f);
         direction = new Vector2(randomX, randomY).normalized;
         speed = initialspeed;
+        power = 1;
+        //trailRenderer.enabled = false;
     }
 
     public void InitializeBall(Vector2 direction)
     {
         this.direction = direction;
         speed = initialspeed;
+        power = 1;
+        //trailRenderer.enabled = false;
     }
 
     public void SpeedChange(float changeSpeed)
@@ -75,14 +81,10 @@ public class BallController : MonoBehaviour
         power = changePower;
     }
 
-    //private void TrailRendererOnOff()
-    //{
-    //    if (rb2d.velocity.magnitude > initialspeed)
-    //    {
-    //        trailRenderer.enabled = true;
-    //    }
-    //    else trailRenderer.enabled = false;
-    //}
+    private void CallTouchFloor()
+    {
+        OnTouchFloor?.Invoke();
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (IsLayerMatched(paddleLayer, collision.gameObject.layer))       // 패들과 충돌 시 방향 전환, 고쳐야 함
@@ -94,8 +96,9 @@ public class BallController : MonoBehaviour
         else if (IsLayerMatched(bottomLayer, collision.gameObject.layer))         // 바닥과 충돌 시 사라짐
         {
             gameObject.SetActive(false);
-
+            CallTouchFloor();
         }
+
 
         else                                                                // 벽과 블럭에 충돌 시 방향전환
         {
@@ -105,8 +108,13 @@ public class BallController : MonoBehaviour
             rb2d.velocity = direction * speed;
         }
 
+        if (IsLayerMatched(bossLayer, collision.gameObject.layer))
+        {
+            BossController boss = collision.gameObject.GetComponent<BossController>();
+            boss.GetDamage(power);
+        }
 
-        if(IsLayerMatched(wallLayer, collision.gameObject.layer))           // 벽에 충돌 시 미세 각도 조정
+        if (IsLayerMatched(wallLayer, collision.gameObject.layer))           // 벽에 충돌 시 미세 각도 조정
         {
             direction = rb2d.velocity.normalized;
             float degree = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -131,7 +139,7 @@ public class BallController : MonoBehaviour
     {
         float difX = this.transform.position.x - transform.position.x;
         difX = transform.localScale.x / 2 - difX;
-        float rad = Mathf.Clamp((difX / transform.localScale.x) * 180, 15, 165) * Mathf.Deg2Rad;        // 15~165도 사이의 각도로 튕겨나감
+        float rad = Mathf.Clamp((difX / transform.localScale.x) * 180, 40, 140) * Mathf.Deg2Rad;        // 15~165도 사이의 각도로 튕겨나감
         float newdirectionX = Mathf.Cos(rad);
         float newdirectionY = Mathf.Sin(rad);
         if (this.transform.position.y > transform.position.y)
