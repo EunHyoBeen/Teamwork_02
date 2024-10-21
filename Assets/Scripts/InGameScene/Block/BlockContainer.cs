@@ -8,6 +8,7 @@ public class BlockContainer : MonoBehaviour
 {
     [SerializeField] protected GameObject blockRectangle;
     [SerializeField] protected GameObject blockCircle;
+    [SerializeField] protected GameObject blockSquare;
     [SerializeField] protected GameObject blockInvincible;
 
     [SerializeField] private ItemContainer itemContainer;
@@ -40,6 +41,12 @@ public class BlockContainer : MonoBehaviour
         float yCenter_C = 2f;
         float xInterval_C = 0.5f;
         float yInterval_C = 0.5f;
+
+        int[,] BlockMap_S = null;
+        float xCenter_S = 0f;
+        float yCenter_S = 2f;
+        float xInterval_S = 0.25f;
+        float yInterval_S = 0.25f;
 
         switch (stageIndex)
         {
@@ -134,7 +141,34 @@ public class BlockContainer : MonoBehaviour
                                                { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 } };
                 itemContainer.SetItemTypeWeight(Item.Type.BallTriple, 100f);
                 break;
-
+            case 8:
+                yCenter_S = 1f;
+                BlockMap_S = new int[16, 14] { { 0, 0, 0, 0, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0 },
+                                               { 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0, 0 },
+                                               { 0, 0, 0,10,10,10, 5, 5,10, 5, 0, 0, 0, 0 },
+                                               { 0, 0,10, 5,10, 5, 5, 5,10, 5, 5, 5, 0, 0 },
+                                               { 0, 0,10, 5,10,10, 5, 5, 5,10, 5, 5, 5, 0 },
+                                               { 0, 0,10,10, 5, 5, 5, 5,10,10,10,10, 0, 0 },
+                                               { 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0 },
+                                               { 0, 0,10,10,10, 7,10,10,10, 0, 0, 0, 0, 0 },
+                                               { 0,10,10,10,10, 7,10,10, 7,10,10,10,10, 0 },
+                                               {10,10,10,10,10, 7, 7, 7, 7,10,10,10,10,10 },
+                                               { 5, 5, 5,10, 7, 5, 7, 7, 5, 7,10, 5, 5, 5 },
+                                               { 5, 5, 5, 5, 7, 7, 7, 7, 7, 7, 5, 5, 5, 5 },
+                                               { 5, 5, 5, 7, 7, 7, 7, 7, 7, 7, 7, 5, 5, 5 },
+                                               { 0, 0, 0, 7, 7, 7, 0, 0, 7, 7, 7, 0, 0, 0 },
+                                               { 0, 0,10,10,10, 0, 0, 0, 0,10,10,10, 0, 0 },
+                                               { 0,10,10,10,10, 0, 0, 0, 0,10,10,10,10, 0 } };
+                for (int x = 0; x < 10; x++)
+                {
+                    for (int y = 0; y < 2; y++)
+                    {
+                        float xPos = x * 0.54f - 2.43f;
+                        float yPos = -y * 0.3f + 4.6f;
+                        InstantiateBlockDetail(blockRectangle, xPos, yPos, (y == 0 ? 10 : 1), Item.Type.BallTriple, Vector2.zero);
+                    }
+                }
+                break;
 
 
 
@@ -145,9 +179,8 @@ public class BlockContainer : MonoBehaviour
                                              { 1, 1, 0, 0, 1, 1 },
                                              { 1, 1, 0, 0, 1, 1 } };
                 itemContainer.SetItemTypeWeight(Item.Type.PaddleStopDebuff, 0f);
+                itemContainer.SetItemTypeWeight(Item.Type.PaddleSizeDown, 0f);
                 itemContainer.SetItemTypeWeight(Item.Type._NONE, 5f);
-                itemContainer.SetItemTypeWeight(Item.Type.BallPowerUp, 10f);
-                itemContainer.SetItemTypeWeight(Item.Type.PaddleSizeUp, 10f);
                 break;
 
 
@@ -167,6 +200,7 @@ public class BlockContainer : MonoBehaviour
 
         if (BlockMap_R != null) DrawBlockMap(blockRectangle, BlockMap_R, xCenter_R, yCenter_R, xInterval_R, yInterval_R);
         if (BlockMap_C != null) DrawBlockMap(blockCircle, BlockMap_C, xCenter_C, yCenter_C, xInterval_C, yInterval_C);
+        if (BlockMap_S != null) DrawBlockMap(blockSquare, BlockMap_S, xCenter_S, yCenter_S, xInterval_S, yInterval_S);
 
         #endregion
     }
@@ -195,8 +229,18 @@ public class BlockContainer : MonoBehaviour
         GameObject blockInstance = Instantiate(blockPrefab);
         blockInstance.transform.SetParent(transform);
         Block block = blockInstance.GetComponent<Block>();
-        block.OnBreak += BlockBreaked;
-        block.InitializeBlock(x, y, health, Vector2.zero);
+        block.OnBreak += BlockBreakEvent;
+        block.InitializeBlock(x, y, health, Item.Type._MAX, Vector2.zero);
+        blockRemains++;
+    }
+
+    private void InstantiateBlockDetail(GameObject blockPrefab, float x, float y, int health, Item.Type itemType, Vector2 speed)
+    {
+        GameObject blockInstance = Instantiate(blockPrefab);
+        blockInstance.transform.SetParent(transform);
+        Block block = blockInstance.GetComponent<Block>();
+        block.OnBreak += BlockBreakEvent;
+        block.InitializeBlock(x, y, health, itemType, speed);
         blockRemains++;
     }
 
@@ -208,10 +252,18 @@ public class BlockContainer : MonoBehaviour
         block.InitializeInvincibleBlock(x, y, width, height, Vector2.zero);
     }
 
-    protected void BlockBreaked(float x, float y)
+    protected void BlockBreakEvent(float x, float y, Item.Type dropItem)
     {
         blockRemains--;
-        itemContainer.RandomItemCreation(x, y);
+
+        if (dropItem == Item.Type._MAX) // 무작위 아이템 생성
+        {
+            itemContainer.RandomItemCreation(x, y);
+        }
+        else if (dropItem != Item.Type._NONE) // 특정 아이템 생성
+        {
+            itemContainer.ItemCreation(x, y, dropItem);
+        }
 
         // 게임 클리어
         if (blockRemains <= 0)

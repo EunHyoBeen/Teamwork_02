@@ -3,39 +3,51 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class Block : MonoBehaviour
 {
+    [SerializeField] private ItemImages itemImages;
     [SerializeField] private LayerMask blockGrinderLayer;
 
     private static readonly int maxHealth = 10;
     private static readonly Color[] healthColor = new Color[]
         { new Color(0.8f, 0.8f, 0.8f), new Color(0.6f, 0.6f, 0.9f), new Color(0.0f, 1.0f, 0.5f), new Color(0.1f, 0.7f, 0.1f), new Color(0.7f, 0.7f, 0.0f),
           new Color(1.0f, 0.5f, 0.0f), new Color(1.0f, 0.0f, 0.0f), new Color(0.5f, 0.0f, 0.5f), new Color(0.2f, 0.2f, 0.8f), new Color(0.2f, 0.2f, 0.2f) };
+    private Item.Type dropItem;
     private Vector2 movingVector;
 
     private SpriteRenderer image;
     private Canvas canvas;
+    private UnityEngine.UI.Image ItemContainedImg;
     private TextMeshProUGUI healthTxt;
 
-    public event Action<float, float> OnBreak;
     private int health;
+    public event Action<float, float, Item.Type> OnBreak;
     private bool alreadyDestroyed; // 중복 파괴 방지
 
     private bool invincible;
     
-    public void InitializeBlock(float x, float y, int initialHealth, Vector2 speed)
+    public void InitializeBlock(float x, float y, int initialHealth, Item.Type _dropItem, Vector2 speed)
     {
         if (initialHealth <= 0) return;
 
         image = GetComponent<SpriteRenderer>();
         canvas = transform.GetChild(0).GetComponent<Canvas>();
-        healthTxt = canvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        ItemContainedImg = canvas.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>();
+        healthTxt = canvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
 
         invincible = false;
         SetHealth(initialHealth);
         transform.position = new Vector3(x, y, 0);
+
+        dropItem = _dropItem;
+        if (Item.Type._NONE < dropItem && dropItem < Item.Type._MAX)
+        {
+            ItemContainedImg.gameObject.SetActive(true);
+            ItemContainedImg.sprite = itemImages.List[(int)dropItem];
+        }
         movingVector = speed;
     }
     public void InitializeInvincibleBlock(float x, float y, float width, float height, Vector2 speed)
@@ -75,7 +87,7 @@ public class Block : MonoBehaviour
                 if (TryGetComponent<PolygonCollider2D>(out PolygonCollider2D boxCollider)) boxCollider.enabled = false;
                 if (TryGetComponent<CircleCollider2D>(out CircleCollider2D circleCollider)) circleCollider.enabled = false;
                 GetComponent<Animator>().SetTrigger("blockBreak");
-                OnBreak?.Invoke(transform.position.x, transform.position.y);
+                OnBreak?.Invoke(transform.position.x, transform.position.y, dropItem);
                 Invoke("DestroyObject", 1f);
             }
         }

@@ -16,7 +16,7 @@ public class StageSelect : MonoBehaviour
     public StageButton stageButton;
     public GameObject stageBtnPrefab;
     public RectTransform buttonParent;
-    private int stageCount = 10;
+    private int stageCount = 20;
     
     void Start()
     {
@@ -60,7 +60,14 @@ public class StageSelect : MonoBehaviour
     public void SelectStageButton(int idx)
     {
         GameManager.Instance.stageParameter.stageIndex = idx;
-        SceneManager.LoadScene("InGameScene");
+        if (idx % 10 != 0)
+        {
+            SceneManager.LoadScene("InGameScene");
+        }
+        else
+        {
+            SceneManager.LoadScene("InGameBossScene");
+        }
     }
 
     private void InActiveButton(StageButton stageButton)

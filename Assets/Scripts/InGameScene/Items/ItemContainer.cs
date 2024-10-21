@@ -37,6 +37,17 @@ public class ItemContainer : MonoBehaviour
         foreach (KeyValuePair<Item.Type, float> typeWeight in typeProbabilityWeight) typeTotalWeight += typeWeight.Value;
     }
 
+    public void ItemCreation(float x, float y, Item.Type itemType)
+    {
+        // 아이템 생성 안함
+        if ((Item.Type._NONE < itemType && itemType < Item.Type._MAX) == false) return;
+
+        // 아이템 생성
+        GameObject itemInstance = Instantiate(itemPrefab);
+        itemInstance.transform.SetParent(transform);
+        Item item = itemInstance.GetComponent<Item>();
+        item.InitializeItem(x, y, itemType, Vector2.zero);
+    }
     public void RandomItemCreation(float x, float y)
     {
         float randomValue = UnityEngine.Random.Range(0, typeTotalWeight);

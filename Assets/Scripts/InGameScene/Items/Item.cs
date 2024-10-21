@@ -15,7 +15,7 @@ public class Item : MonoBehaviour
         _MAX
     }
 
-    [SerializeField] private Sprite[] itemImages;
+    [SerializeField] private ItemImages itemImages;
 
     public Type itemType { get; private set; }
 
@@ -24,9 +24,10 @@ public class Item : MonoBehaviour
         itemType = _itemType;
         transform.position = new Vector3(x, y, 0);
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        
         if (0 <= _itemType && _itemType < Type._MAX)
         {
-            spriteRenderer.sprite = itemImages[(int)_itemType];
+            spriteRenderer.sprite = itemImages.List[(int)_itemType];
         }
 
         if (initialSpeed != Vector2.zero)

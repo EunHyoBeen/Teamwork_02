@@ -174,13 +174,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa27eae8c47e829499a62bea37ea84d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemImages:
-  - {fileID: 21300000, guid: 6047b6ad0da73434e9e613e6d567880b, type: 3}
-  - {fileID: 21300000, guid: 179fa22eb40be714ba9e35c0874cfde3, type: 3}
-  - {fileID: 21300000, guid: 35ef0420a745a3345b99e24a292f7d5d, type: 3}
-  - {fileID: 21300000, guid: c68e8eff1f1bee44ba5a495dcd4d94a3, type: 3}
-  - {fileID: 21300000, guid: 81497db64eb74fc47a005969a46b151e, type: 3}
-  - {fileID: 21300000, guid: aa36497bda7924548900d690632264e6, type: 3}
-  - {fileID: 21300000, guid: 872f75e7415f11a43aa8a4d1bbc63388, type: 3}
-  - {fileID: 21300000, guid: 7e1eca3d5ff1d8241ac4366417fb6377, type: 3}
-  - {fileID: 21300000, guid: 2b920e9885cd1114491d04e7658ad736, type: 3}
+  itemImages: {fileID: 11400000, guid: 3885580f9dbac7a46ae2608e2f15235a, type: 2}
