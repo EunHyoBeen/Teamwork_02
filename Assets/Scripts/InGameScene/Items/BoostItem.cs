@@ -13,9 +13,6 @@ public class BoostItem : MonoBehaviour
     [SerializeField] private GameObject item2;
     [SerializeField] private GameObject boostItem;
 
-    // public GameObject boostItem;
-    public Item.Type itemType;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -28,14 +25,13 @@ public class BoostItem : MonoBehaviour
     
     public void ShowBoostItem(Item.Type[] items)
     {
+        if (items == null)
+        {
+            items = new Item.Type[0];
+        }
 
         Image img1 = item1.GetComponent<Image>();
         Image img2 = item2.GetComponent<Image>();
-
-        // if (items == null || items.Length == 0)
-        // {
-        //     boostItem.SetActive(false);
-        // }
 
         switch(items.Length)
         {
