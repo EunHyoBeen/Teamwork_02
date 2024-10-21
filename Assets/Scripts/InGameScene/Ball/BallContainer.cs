@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BallContainer : MonoBehaviour
@@ -15,6 +16,7 @@ public class BallContainer : MonoBehaviour
     public List<Pool> Pools;
     public Dictionary<string, Queue<GameObject>> PoolDictionary;
     [SerializeField][Range(0f, 20f)] private float initialSpeed = 5f;
+    public event Action OnDeath;
 
     private void Awake()
     {
@@ -26,7 +28,9 @@ public class BallContainer : MonoBehaviour
             {
                 GameObject obj = Instantiate(pool.prefab);
                 obj.transform.SetParent(transform);
-                obj.GetComponent<BallController>().SetInitialSpeed(initialSpeed);           //각각의 공에 초기 속도 따로 지정
+                BallController ballcontroller = obj.GetComponent<BallController>();
+                ballcontroller.SetInitialSpeed(initialSpeed);       //각각의 공에 초기 속도 따로 지정
+                ballcontroller.OnTouchFloor += TouchFloor;
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
             }
@@ -77,7 +81,7 @@ public class BallContainer : MonoBehaviour
                 activechild.Add(child);
             }
         }
-        foreach (Transform transform in activechild)            // 활성화된 공에 공 개수를 몇배로 함
+        foreach (Transform transform in activechild)            // 활성화된 공에 공 개수를 'multiplier'배로 만듬
         {
             for (int i = 1; i < multiplier; i++)
             {
@@ -90,21 +94,23 @@ public class BallContainer : MonoBehaviour
 
     public void ResetBalls()                    // 모든 공 비활성화
     {
-        foreach (Transform child in transform)      
+        foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
         }
         activeBalls = 0;
     }
 
+    private void TouchFloor()
+    {
+        activeBalls--;
+        if (activeBalls <= 0) CallDeath();
+    }
 
-    //public void OnDeath()
-    //{
-    //    if (AllBallsInactive)
-    //    {
-
-    //    }
-    //}
+    private void CallDeath()
+    {
+        OnDeath?.Invoke();
+    }
 
     public bool AllBallsFall()      // 모든 공이 떨어져서 비활성화 됐는지
     {
