@@ -17,7 +17,6 @@ public class BossSceneManager : InGameManager
         stageIndex = 10; //Debug
         ExecuteStage();
     }
-
     protected override void ExecuteStage()
     {
         isPlaying = true;
