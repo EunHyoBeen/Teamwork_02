@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static InGameManager;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class InGameManager : MonoBehaviour
@@ -15,11 +16,12 @@ public class InGameManager : MonoBehaviour
     [SerializeField] protected RectTransform clearMenu;
     [SerializeField] protected RectTransform gameOverMenu;
 
-    protected GameMode gameMode; //현재 사용 안함
+    protected GameMode gameMode;
 
     public int stageIndex;
 
     protected int player1Life, player2Life;
+    private bool player1HasBall, player2HasBall;
 
     protected bool isPlaying;
     protected bool isRally; // 플레이어가 첫 공을 발사할 때 true로 전환됨
@@ -27,6 +29,7 @@ public class InGameManager : MonoBehaviour
     protected virtual void Start()
     {
         StageParameter stageParameter = GameManager.Instance.stageParameter;
+        gameMode = stageParameter.gameMode;
         stageIndex = stageParameter.stageIndex;
         ExecuteStage();
     }
@@ -45,8 +48,7 @@ public class InGameManager : MonoBehaviour
         isPlaying = true;
         isRally = false;
 
-        player1Life = 3;
-        player2Life = 3;
+        //player2Life = 3; 지금 안씀
         // TODO : 플레이어 런치 이벤트
         //player1.OnLaunch += PlayerOnLaunch;
         //player2.OnLaunch += PlayerOnLaunch;
@@ -56,9 +58,22 @@ public class InGameManager : MonoBehaviour
         blockContainer.OnAllBlockDestroyed += GameClear;
         blockContainer.SetStage(stageIndex);
 
-        Time.timeScale = 1;
+        if (gameMode == GameMode.Alone)
+        {
+            player1Life = 3;
+            player1HasBall = true;
+            player1.InitializePlayer(0, -4);
+        }
+        else
+        {
+            player1Life = 3;
+            player1HasBall = true;
+            player2HasBall = true;
+            player1.InitializePlayer(-1, -4);
+            player2.InitializePlayer(1, -4);
+        }
 
-        player1.InitializePlayer();
+        Time.timeScale = 1;
     }
 
     protected virtual void PlayerOnLaunch()
@@ -75,16 +90,42 @@ public class InGameManager : MonoBehaviour
     {
         if (playerIndex == 1)
         {
-            player1Life--;
+            player1HasBall = false;
         }
         else
         {
-            player2Life--;
+            player2HasBall = false;
         }
 
-        if (player1Life <= 0 && player2Life <= 0 && isPlaying == true)
+        if (gameMode == GameMode.Alone)
         {
-            GameOver();
+            player1Life--;
+
+            if (player1Life <= 0)
+            {
+                GameOver();
+            }
+            else
+            {
+                player1.InitializePlayer(0, -4);
+            }
+        }
+        else if (gameMode == GameMode.Duo_community)
+        {
+            if (player1HasBall == false && player2HasBall == false)
+            {
+                player1Life--;
+            }
+
+            if (player1Life <= 0)
+            {
+                GameOver();
+            }
+            else
+            {
+                player1.InitializePlayer(-1, -4);
+                player2.InitializePlayer(1, -4);
+            }
         }
     }
 

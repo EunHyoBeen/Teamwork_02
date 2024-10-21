@@ -30,29 +30,41 @@ public class PlayerHealth : MonoBehaviour
             case 1: 
                 player1Life3.SetActive(false);
                 player1Life2.SetActive(false);
+                player1Life1.SetActive(true);
                 break;
             case 2: 
                 player1Life3.SetActive(false);
+                player1Life2.SetActive(true);
+                player1Life1.SetActive(true);
                 break;
             case 3:
+                player1Life3.SetActive(true);
+                player1Life2.SetActive(true);
+                player1Life1.SetActive(true);
                 break;
         }
 
         switch(player2Health)
         {
             case 0:
+                player2Life3.SetActive(false);
+                player2Life2.SetActive(false);
                 player2Life1.SetActive(false);
-                player2Life2.SetActive(false);
-                player2Life3.SetActive(false);
                 break;
-            case 1: 
+            case 1:
                 player2Life3.SetActive(false);
                 player2Life2.SetActive(false);
+                player2Life1.SetActive(true);
                 break;
-            case 2: 
+            case 2:
                 player2Life3.SetActive(false);
+                player2Life2.SetActive(true);
+                player2Life1.SetActive(true);
                 break;
             case 3:
+                player2Life3.SetActive(true);
+                player2Life2.SetActive(true);
+                player2Life1.SetActive(true);
                 break;
         }
     }

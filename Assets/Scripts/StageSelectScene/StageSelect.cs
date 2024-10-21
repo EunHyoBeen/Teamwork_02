@@ -55,15 +55,12 @@ public class StageSelect : MonoBehaviour
                 InActiveButton(stageButton);
             }
         }
-
-        if (GameManager.Instance.gameData.GameMode == InGameManager.GameMode.Alone)
-        {
-
-        }
     }
 
     public void SelectStageButton(int idx)
     {
+        GameManager.Instance.stageParameter.gameMode = GameManager.Instance.gameData.GameMode;
+
         GameManager.Instance.stageParameter.stageIndex = idx;
         if (idx % 10 != 0)
         {
