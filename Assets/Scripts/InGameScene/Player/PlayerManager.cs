@@ -13,6 +13,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private PaddleEffectManager paddleEffectManager;
     [SerializeField] private PaddleEffectHandler paddleEffectHandler;
 
+    public int PlayerID;
+
     private bool isAlive = true;
     private bool ballLaunched = false;
     private bool rotatingRight = true;
@@ -38,6 +40,9 @@ public class PlayerManager : MonoBehaviour
 
     public void InitializePlayer(float x, float y)
     {
+        ballContainer.OnDeath -= DecreasePlayerLife;
+        ballContainer.OnDeath += DecreasePlayerLife;
+
         arrowTransform.gameObject.SetActive(true);
 
         paddleTransform.gameObject.SetActive(true);
@@ -52,7 +57,7 @@ public class PlayerManager : MonoBehaviour
 
         ResetPlayerLives();
 
-        ResetBallAndArrow();        
+        ResetBallAndArrow();
     }
 
     private void ResetPaddlePositions(Vector2 newPosition)
@@ -173,9 +178,9 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void DecreasePlayerLife(int playerID)
+    public void DecreasePlayerLife()
     {
-        OnDeathEvent?.Invoke(playerID);
+        OnDeathEvent?.Invoke(PlayerID);
     }
 
     public void IncreasePlayerLife(int playerID)
@@ -186,15 +191,6 @@ public class PlayerManager : MonoBehaviour
         {
             playerLifes[playerIndex] = Mathf.Clamp(playerLifes[playerIndex] + 1, 0, 3);
         }
-    }
-
-    private void HandlePlayerDeath(int playerID)
-    {
-        isAlive = false;
-        ballLaunched = false;
-        currentBall = null;
-        SpawnAndAttachBall();
-        OnDeathEvent?.Invoke(playerID);
     }
 
     public void GameClear()
