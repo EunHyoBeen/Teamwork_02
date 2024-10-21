@@ -184,7 +184,7 @@ public class PlayerManager : MonoBehaviour
 
         if (playerIndex >= 0 && playerIndex < playerLifes.Length)
         {
-            playerLifes[playerIndex]++;
+            playerLifes[playerIndex] = Mathf.Clamp(playerLifes[playerIndex] + 1, 0, 3);
         }
     }
 
