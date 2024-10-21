@@ -37,7 +37,16 @@ public class ItemContainer : MonoBehaviour
         foreach (KeyValuePair<Item.Type, float> typeWeight in typeProbabilityWeight) typeTotalWeight += typeWeight.Value;
     }
 
-    public void RandomItemCreation(float x, float y)
+    public void ItemCreation(Item.Type type, float x, float y, Vector2 initialSpeed)
+    {
+        if (type < 0 || type >= Item.Type._MAX) return;
+
+        GameObject itemInstance = Instantiate(itemPrefab);
+        itemInstance.transform.SetParent(transform);
+        Item item = itemInstance.GetComponent<Item>();
+        item.InitializeItem(x, y, type, initialSpeed);
+    }
+    public void RandomItemCreation(float x, float y, Vector2 initialSpeed)
     {
         float randomValue = UnityEngine.Random.Range(0, typeTotalWeight);
         float cumulativeWeight = 0;
@@ -62,16 +71,6 @@ public class ItemContainer : MonoBehaviour
         itemInstance.transform.SetParent(transform);
         Item item = itemInstance.GetComponent<Item>();
         item.InitializeItem(x, y, selectedItemType, Vector2.zero);
-    }
-
-    public void ItemCreation(Item.Type type, float x, float y, Vector2 initialSpeed)
-    {
-        if (type < 0 || type >= Item.Type._MAX) return;
-
-        GameObject itemInstance = Instantiate(itemPrefab);
-        itemInstance.transform.SetParent(transform);
-        Item item = itemInstance.GetComponent<Item>();
-        item.InitializeItem(x, y, type, initialSpeed);
     }
 
     public void Clear()

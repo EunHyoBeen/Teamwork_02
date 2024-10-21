@@ -10,18 +10,23 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private BallContainer ballContainer;
     [SerializeField] private float arrowRotationSpeed = 45f;
     [SerializeField] private float maxRotationAngle = 45f;
+    [SerializeField] private PaddleEffectManager paddleEffectManager;
+    [SerializeField] private PaddleEffectHandler paddleEffectHandler;
 
     private bool isAlive = true;
     private bool ballLaunched = false;
     private bool rotatingRight = true;
+    private bool isGameCleard = false;
     private GameObject currentBall = null;
+    private Vector2 initialPosition;
 
     public event Action<int> OnDeathEvent;
     public event Action OnLaunchEvent;
 
-    private void Start()
+    private void Awake()
     {
-        SpawnAndAttachBall();
+        initialPosition = paddleTransform.position;
+
     }
 
     private void Update()
@@ -36,6 +41,61 @@ public class PlayerManager : MonoBehaviour
         {
             LaunchBall();
         }
+    }
+
+    public void InitializePlayer()
+    {
+        arrowTransform.gameObject.SetActive(true);
+
+        paddleTransform.gameObject.SetActive(true);
+
+        currentBall = null;
+
+        ballContainer.ResetBalls();
+
+        ResetPaddlePositions();
+
+        ResetPaddleEffects();
+
+        ResetPlayerLives();
+
+        ResetBallAndArrow();        
+    }
+
+    private void ResetPaddlePositions()
+    {
+        paddleTransform.position = initialPosition;
+    }
+
+    private void ResetPaddleEffects()
+    {
+        paddleEffectManager.ResetAllEffects(0);
+        paddleEffectManager.ResetAllEffects(1);
+        paddleEffectHandler.ResetAllItemEffects();
+    }
+
+    private void ResetPlayerLives()
+    {
+        for (int i = 0; i < playerLifes.Length; i++)
+        {
+            playerLifes[i] = 3;
+        }
+    }
+
+    private void ResetBallAndArrow()
+    {
+        ballLaunched = false;
+
+        if (currentBall != null)
+        {
+            FollowPaddleWithBall();
+        }
+        else
+        {
+            SpawnAndAttachBall();
+        }
+
+        arrowTransform.gameObject.SetActive(true);
     }
 
     private void RotateArrow()
@@ -71,17 +131,19 @@ public class PlayerManager : MonoBehaviour
 
     private void SpawnAndAttachBall()
     {
-        if (currentBall == null)
+        if (currentBall != null)
         {
-            currentBall = ballContainer.SpawnFromPool("Ball");
+            return;
+        }
 
-            if (currentBall != null)
-            {
-                Vector2 spawnPosition = new Vector2(paddleTransform.position.x, paddleTransform.position.y + ballOffsetY);
-                currentBall.transform.position = spawnPosition;
-                currentBall.SetActive(true);
-                ballLaunched = false;
-            }
+        currentBall = ballContainer.SpawnFromPool("Ball");
+
+        if (currentBall != null)
+        {
+            Vector2 spawnPosition = new Vector2(paddleTransform.position.x, paddleTransform.position.y + ballOffsetY);
+            currentBall.transform.position = spawnPosition;
+            currentBall.SetActive(true);
+            ballLaunched = false;
         }
     }
 
@@ -120,19 +182,7 @@ public class PlayerManager : MonoBehaviour
 
     public void DecreasePlayerLife(int playerID)
     {
-        int playerIndex = playerID - 1;
-
-        if (!isAlive || playerIndex < 0 || playerIndex >= playerLifes.Length)
-        {
-            return;
-        }
-
-        playerLifes[playerIndex]--;
-
-        if (playerLifes[playerIndex] <= 0)
-        {
-            HandlePlayerDeath(playerID);
-        }
+        OnDeathEvent?.Invoke(playerID);
     }
 
     public void IncreasePlayerLife(int playerID)
@@ -152,5 +202,10 @@ public class PlayerManager : MonoBehaviour
         currentBall = null;
         SpawnAndAttachBall();
         OnDeathEvent?.Invoke(playerID);
+    }
+
+    public void GameClear()
+    {
+        isGameCleard = true;
     }
 }

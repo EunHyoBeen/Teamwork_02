@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Item : MonoBehaviour
@@ -15,7 +16,14 @@ public class Item : MonoBehaviour
         _MAX
     }
 
-    [SerializeField] private Sprite[] itemImages;
+    [SerializeField] private ItemImages itemImages;
+
+    private static readonly int animRed = Animator.StringToHash("acquiredRed");
+    private static readonly int animBlue = Animator.StringToHash("acquiredBlue");
+    private static readonly int animWhite = Animator.StringToHash("acquiredWhite");
+    private static readonly int animYellow = Animator.StringToHash("acquiredYellow");
+    private static readonly int animDarkRed = Animator.StringToHash("acquiredDarkRed");
+    private static readonly int animDarkBlue = Animator.StringToHash("acquiredDarkBlue");
 
     public Type itemType { get; private set; }
 
@@ -24,9 +32,10 @@ public class Item : MonoBehaviour
         itemType = _itemType;
         transform.position = new Vector3(x, y, 0);
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        
         if (0 <= _itemType && _itemType < Type._MAX)
         {
-            spriteRenderer.sprite = itemImages[(int)_itemType];
+            spriteRenderer.sprite = itemImages.List[(int)_itemType];
         }
 
         if (initialSpeed != Vector2.zero)
@@ -40,13 +49,47 @@ public class Item : MonoBehaviour
     {
         if (used)
         {
-            // TODO : Fx효과
+            if (TryGetComponent<CircleCollider2D>(out CircleCollider2D circleCollider)) circleCollider.enabled = false;
+
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            rb.velocity = Vector2.zero;
+            rb.gravityScale = 0f;
+
+            Animator animator = GetComponent<Animator>();
+            animator.enabled = true;
+            switch (itemType)
+            {
+                case Type.BonusLife:
+                    animator.SetTrigger(animWhite);
+                    break;
+                case Type.PaddleSizeUp:
+                case Type.PaddleSpeedUp:
+                    animator.SetTrigger(animBlue);
+                    break;
+                case Type.PaddleSizeDown:
+                case Type.PaddleSpeedDown:
+                    animator.SetTrigger(animDarkBlue);
+                    break;
+                case Type.BallPowerUp:
+                case Type.BallSpeedUp:
+                case Type.BallTriple:
+                    animator.SetTrigger(animRed);
+                    break;
+                case Type.PaddleStopDebuff:
+                    animator.SetTrigger(animDarkRed);
+                    break;
+            }
+
+            Invoke("DestroyObject", 1f);
         }
         else
         {
-            // TODO : Fx효과
+            DestroyObject();
         }
+    }
 
+    private void DestroyObject()
+    {
         Destroy(gameObject);
     }
 }

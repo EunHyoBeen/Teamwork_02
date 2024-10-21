@@ -56,16 +56,19 @@ public class BlockContainerForBoss : BlockContainer
     private void SpawnBlockStage10()
     {
         float originX, originY, radius;
+        Item.Type dropItem;
         Vector2 speed;
 
         if (spawnCycle % 2 == 0)
         {
             originX = -5f;
+            dropItem = Item.Type.PaddleSizeUp;
             speed = new Vector2(1, 0);
         }
         else
         {
             originX = 5f;
+            dropItem = Item.Type.BallPowerUp;
             speed = new Vector2(-1, 0);
         }
         originY = 1.5f;
@@ -79,16 +82,16 @@ public class BlockContainerForBoss : BlockContainer
         float x = Mathf.Cos(angle) * distance + originX;
         float y = Mathf.Sin(angle) * distance + originY;
 
-        InstantiateFloatingBlock(blockCircle, x, y, 1, speed);
+        InstantiateFloatingBlock(blockCircle, x, y, 1, dropItem, speed);
     }
 
-    private void InstantiateFloatingBlock(GameObject blockPrefab, float x, float y, int health, Vector2 speed)
+    private void InstantiateFloatingBlock(GameObject blockPrefab, float x, float y, int health, Item.Type dropItem, Vector2 speed)
     {
         GameObject blockInstance = Instantiate(blockPrefab);
         blockInstance.transform.SetParent(transform);
         Block block = blockInstance.GetComponent<Block>();
-        block.OnBreak += BlockBreaked;
-        block.InitializeBlock(x, y, health, speed);
+        block.OnBreak += BlockBreakEvent;
+        block.InitializeBlock(x, y, health, dropItem, speed);
     }
 
     private void InstantiateFloatingInvincibleBlock(float x, float y, float width, float height, Vector2 speed)

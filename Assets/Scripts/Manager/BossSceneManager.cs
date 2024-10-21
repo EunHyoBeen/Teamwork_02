@@ -21,8 +21,8 @@ public class BossSceneManager : InGameManager
     {
         isPlaying = true;
 
-        player1Alive = true;
-        player2Alive = true;
+        player1Life = 3;
+        player2Life = 3;
         // TODO : 플레이어 런치 이벤트
         //player1.OnLaunch += PlayerOnLaunch;
         //player2.OnLaunch += PlayerOnLaunch;

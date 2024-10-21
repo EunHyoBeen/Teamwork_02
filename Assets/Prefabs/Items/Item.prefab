@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8045572905066308991}
   - component: {fileID: 7748490924030923335}
   - component: {fileID: 4257168161994968551}
+  - component: {fileID: 6763089232815017603}
   m_Layer: 10
   m_Name: Item
   m_TagString: Item
@@ -174,13 +175,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa27eae8c47e829499a62bea37ea84d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemImages:
-  - {fileID: 21300000, guid: 6047b6ad0da73434e9e613e6d567880b, type: 3}
-  - {fileID: 21300000, guid: 179fa22eb40be714ba9e35c0874cfde3, type: 3}
-  - {fileID: 21300000, guid: 35ef0420a745a3345b99e24a292f7d5d, type: 3}
-  - {fileID: 21300000, guid: c68e8eff1f1bee44ba5a495dcd4d94a3, type: 3}
-  - {fileID: 21300000, guid: 81497db64eb74fc47a005969a46b151e, type: 3}
-  - {fileID: 21300000, guid: aa36497bda7924548900d690632264e6, type: 3}
-  - {fileID: 21300000, guid: 872f75e7415f11a43aa8a4d1bbc63388, type: 3}
-  - {fileID: 21300000, guid: 7e1eca3d5ff1d8241ac4366417fb6377, type: 3}
-  - {fileID: 21300000, guid: 2b920e9885cd1114491d04e7658ad736, type: 3}
+  itemImages: {fileID: 11400000, guid: 3885580f9dbac7a46ae2608e2f15235a, type: 2}
+--- !u!95 &6763089232815017603
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6755348095859030856}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b2b7c5fc915e0c64bbadce3d4b776ea4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

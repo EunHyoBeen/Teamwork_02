@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca541f43917cf9f4eb27620051b046af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paddleMovement: {fileID: 0}
+  paddleMovement: {fileID: 5632291669535116407, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
 --- !u!114 &7982347896624993407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,6 +90,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerLifes: 0300000003000000
-  paddleTransform: {fileID: 0}
+  paddleTransform: {fileID: 9103724133594618602, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
+  arrowTransform: {fileID: 2585913067856483993, guid: 004df8c1e01b6c84fb95bdec3c100181, type: 3}
   ballOffsetY: 0.5
-  ballContainer: {fileID: 0}
+  ballContainer: {fileID: 1541627449012013926, guid: 40d07a0a557a0824dbad8684869be00e, type: 3}
+  arrowRotationSpeed: 150
+  maxRotationAngle: 70
