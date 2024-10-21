@@ -10,6 +10,7 @@ public class BallController : MonoBehaviour
     [SerializeField] private LayerMask bottomLayer;
     [SerializeField] private LayerMask blockLayer;
     [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private LayerMask bossLayer;
     private float initialspeed;
     private float speed;
     //private PlayerManager player;
@@ -101,6 +102,7 @@ public class BallController : MonoBehaviour
 
         }
 
+
         else                                                                // 벽과 블럭에 충돌 시 방향전환
         {
             Vector2 normal = collision.contacts[0].normal;                  // 충돌시 법선 구함
@@ -109,8 +111,13 @@ public class BallController : MonoBehaviour
             rb2d.velocity = direction * speed;
         }
 
+        if (IsLayerMatched(bossLayer, collision.gameObject.layer))
+        {
+            BossController boss = collision.gameObject.GetComponent<BossController>();
+            boss.GetDamage(power);
+        }
 
-        if(IsLayerMatched(wallLayer, collision.gameObject.layer))           // 벽에 충돌 시 미세 각도 조정
+        if (IsLayerMatched(wallLayer, collision.gameObject.layer))           // 벽에 충돌 시 미세 각도 조정
         {
             direction = rb2d.velocity.normalized;
             float degree = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
