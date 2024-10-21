@@ -18,16 +18,9 @@ public class PlayerManager : MonoBehaviour
     private bool rotatingRight = true;
     private bool isGameCleard = false;
     private GameObject currentBall = null;
-    private Vector2 initialPosition;
 
     public event Action<int> OnDeathEvent;
     public event Action OnLaunchEvent;
-
-    private void Awake()
-    {
-        initialPosition = paddleTransform.position;
-
-    }
 
     private void Update()
     {
@@ -43,7 +36,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void InitializePlayer()
+    public void InitializePlayer(int x, int y)
     {
         arrowTransform.gameObject.SetActive(true);
 
@@ -53,7 +46,7 @@ public class PlayerManager : MonoBehaviour
 
         ballContainer.ResetBalls();
 
-        ResetPaddlePositions();
+        ResetPaddlePositions(new Vector2(x, y));
 
         ResetPaddleEffects();
 
@@ -62,9 +55,9 @@ public class PlayerManager : MonoBehaviour
         ResetBallAndArrow();        
     }
 
-    private void ResetPaddlePositions()
+    private void ResetPaddlePositions(Vector2 newPosition)
     {
-        paddleTransform.position = initialPosition;
+        paddleTransform.position = new Vector3(newPosition.x, newPosition.y, 0);
     }
 
     private void ResetPaddleEffects()
