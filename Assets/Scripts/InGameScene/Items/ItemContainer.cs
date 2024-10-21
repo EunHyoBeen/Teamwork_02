@@ -37,18 +37,16 @@ public class ItemContainer : MonoBehaviour
         foreach (KeyValuePair<Item.Type, float> typeWeight in typeProbabilityWeight) typeTotalWeight += typeWeight.Value;
     }
 
-    public void ItemCreation(float x, float y, Item.Type itemType)
+    public void ItemCreation(Item.Type type, float x, float y, Vector2 initialSpeed)
     {
-        // 아이템 생성 안함
-        if ((Item.Type._NONE < itemType && itemType < Item.Type._MAX) == false) return;
+        if (type < 0 || type >= Item.Type._MAX) return;
 
-        // 아이템 생성
         GameObject itemInstance = Instantiate(itemPrefab);
         itemInstance.transform.SetParent(transform);
         Item item = itemInstance.GetComponent<Item>();
-        item.InitializeItem(x, y, itemType, Vector2.zero);
+        item.InitializeItem(x, y, type, initialSpeed);
     }
-    public void RandomItemCreation(float x, float y)
+    public void RandomItemCreation(float x, float y, Vector2 initialSpeed)
     {
         float randomValue = UnityEngine.Random.Range(0, typeTotalWeight);
         float cumulativeWeight = 0;
@@ -73,16 +71,6 @@ public class ItemContainer : MonoBehaviour
         itemInstance.transform.SetParent(transform);
         Item item = itemInstance.GetComponent<Item>();
         item.InitializeItem(x, y, selectedItemType, Vector2.zero);
-    }
-
-    public void ItemCreation(Item.Type type, float x, float y, Vector2 initialSpeed)
-    {
-        if (type < 0 || type >= Item.Type._MAX) return;
-
-        GameObject itemInstance = Instantiate(itemPrefab);
-        itemInstance.transform.SetParent(transform);
-        Item item = itemInstance.GetComponent<Item>();
-        item.InitializeItem(x, y, type, initialSpeed);
     }
 
     public void Clear()

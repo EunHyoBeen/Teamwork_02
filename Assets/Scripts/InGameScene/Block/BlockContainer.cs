@@ -26,7 +26,7 @@ public class BlockContainer : MonoBehaviour
         itemContainer.ResetItemTypeWeight();
 
 
-        #region Stage Block Deployment(Detailed adjustment of item appearance probability)
+        #region Stage Block Deployment(+ Detailed adjustment of item appearance probability)
 
         blockRemains = 0;
 
@@ -142,6 +142,44 @@ public class BlockContainer : MonoBehaviour
                 itemContainer.SetItemTypeWeight(Item.Type.BallTriple, 100f);
                 break;
             case 8:
+                InstantiateInvincibleBlock(-1.9f, 0.0f, 3.2f, 1);
+                InstantiateInvincibleBlock(1.9f, 0.0f, 3.2f, 1);
+                yCenter_R = 2.5f;
+                BlockMap_R = new int[16, 8] { { 0, 0, 0, 0, 0, 0, 0, 0 },
+                                              { 0, 0, 0, 6, 0, 0, 0, 0 },
+                                              { 0, 0, 4, 4, 0, 6, 0, 0 },
+                                              { 0, 0, 4, 4, 4, 6, 0, 0 },
+                                              { 0, 0, 0, 0, 4, 0, 0, 0 },
+                                              { 0, 0, 0, 1, 4, 0, 6, 0 },
+                                              { 0, 0, 0, 1, 4, 4, 0, 0 },
+                                              { 0, 0, 0, 1, 4, 4, 0, 0 },
+                                              { 0, 0, 0, 1, 4, 4, 6, 0 },
+                                              { 0, 0, 0, 0, 4, 4, 0, 0 },
+                                              { 0, 0, 0, 0, 4, 0, 0, 0 },
+                                              { 0, 4, 4, 4, 0, 6, 0, 0 },
+                                              { 0, 0, 1, 0, 0, 6, 0, 0 },
+                                              { 0, 1, 1, 1, 4, 6, 0, 0 },
+                                              { 0, 1, 1, 0, 0, 4, 4, 0 },
+                                              { 6, 0, 1, 6, 6, 4, 4, 4 } };
+                yCenter_S = 2.5f;
+                BlockMap_S = new int[16, 16] { { 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0 },
+                                               { 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0 },
+                                               { 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 0, 6, 0, 0, 0 },
+                                               { 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                                               { 0, 0, 4, 1, 4, 1, 1, 4, 0, 0, 4, 0, 0, 0, 0, 0 },
+                                               { 0, 0, 1,10, 4,10, 0, 0, 0, 0, 4, 6, 0, 0, 0, 0 },
+                                               { 0, 0, 1,10, 4,10, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0 },
+                                               { 0, 4, 1,10, 4,10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                                               { 0, 4, 1,10, 4,10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                                               { 0, 4, 4, 1, 4, 1, 1, 4, 0, 0, 0, 0, 6, 0, 0, 0 },
+                                               { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 6, 4, 0, 0, 0, 0 },
+                                               { 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 0, 4, 0, 0, 0 },
+                                               { 0, 0, 0, 1, 0, 0, 1, 4, 4, 6, 0, 0, 4, 0, 0, 0 },
+                                               { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 0 },
+                                               { 0, 0, 0, 0, 0, 0, 1, 6, 6, 4, 0, 0, 0, 0, 6, 0 },
+                                               { 0, 0, 6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+                break;
+            case 9:
                 yCenter_S = 1f;
                 BlockMap_S = new int[16, 14] { { 0, 0, 0, 0, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0 },
                                                { 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0, 0 },
@@ -258,11 +296,11 @@ public class BlockContainer : MonoBehaviour
 
         if (dropItem == Item.Type._MAX) // 무작위 아이템 생성
         {
-            itemContainer.RandomItemCreation(x, y);
+            itemContainer.RandomItemCreation(x, y, Vector2.zero);
         }
         else if (dropItem != Item.Type._NONE) // 특정 아이템 생성
         {
-            itemContainer.ItemCreation(x, y, dropItem);
+            itemContainer.ItemCreation(dropItem, x, y, Vector2.zero);
         }
 
         // 게임 클리어
