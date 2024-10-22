@@ -32,18 +32,50 @@ public class PlayerManager : MonoBehaviour
             FollowPaddleWithBall();
             RotateArrow();
         }
-
-        if (Input.GetKeyDown(KeyCode.Space) && isAlive && !ballLaunched)
+        
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            LaunchBall();
+            if (PlayerID == 1 && isAlive && !ballLaunched)
+            {
+                LaunchBall();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad0))
+        {
+            if (PlayerID == 2 && isAlive && !ballLaunched)
+            {
+                LaunchBall();
+            }
         }
     }
 
-    public void InitializePlayer(float x, float y)
+    public void InitializePlayer(float x, float y, bool hasBall)
     {
-        ballContainer.OnDeath -= DecreasePlayerLife;
-        ballContainer.OnDeath += DecreasePlayerLife;
+        if (hasBall)
+        {
+            ballContainer.OnDeath -= DecreasePlayerLife;
+            ballContainer.OnDeath += DecreasePlayerLife;
 
+            arrowTransform.gameObject.SetActive(true);
+
+            currentBall = null;
+
+            ballContainer.ResetBalls();
+
+            ResetBallAndArrow();
+        }
+
+        paddleTransform.gameObject.SetActive(true);
+
+        ResetPaddlePositions(new Vector2(x, y));
+
+        ResetPaddleEffects();
+
+        ResetPlayerLives();
+    }
+
+    public void ReloadBall()
+    {
         arrowTransform.gameObject.SetActive(true);
 
         paddleTransform.gameObject.SetActive(true);
@@ -52,14 +84,16 @@ public class PlayerManager : MonoBehaviour
 
         ballContainer.ResetBalls();
 
-        ResetPaddlePositions(new Vector2(x, y));
-
         ResetPaddleEffects();
-
-        ResetPlayerLives();
 
         ResetBallAndArrow();
     }
+
+    public void DeactivatePlayer()
+    {
+        paddleTransform.gameObject.SetActive(false);
+    }
+
 
     private void ResetPaddlePositions(Vector2 newPosition)
     {
@@ -186,9 +220,7 @@ public class PlayerManager : MonoBehaviour
 
     public void IncreasePlayerLife(int playerID)
     {
-        int playerIndex = playerID - 1;
-
-        OnLifeUpEvent?.Invoke(playerIndex);
+        OnLifeUpEvent?.Invoke(PlayerID);
     }
 
     public void GameClear()

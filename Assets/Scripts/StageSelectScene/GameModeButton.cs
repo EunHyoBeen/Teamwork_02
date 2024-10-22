@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameModeButton : MonoBehaviour
 {
     [SerializeField] private RectTransform soloModeBtn;
-    [SerializeField] private RectTransform multiModeBtn;
+    [SerializeField] private RectTransform multiCoopModeBtn;
+    [SerializeField] private RectTransform multiIndiModeBtn;
 
     private void Start()
     {
@@ -14,9 +16,13 @@ public class GameModeButton : MonoBehaviour
         {
             HighlightSoloButton();
         }
+        else if (GameManager.Instance.gameData.GameMode == InGameManager.GameMode.Duo_community)
+        {
+            HighlightMultiCoopButton();
+        }
         else
         {
-            HighlightMultiButton();
+            HighlightMultiIndiButton();
         }
     }
 
@@ -29,81 +35,65 @@ public class GameModeButton : MonoBehaviour
         HighlightSoloButton();
     }
 
-    public void SelectMulti()
+    public void SelectMultiCoop()
     {
         if (GameManager.Instance.gameData.GameMode == InGameManager.GameMode.Duo_community) return;
 
         GameManager.Instance.gameData.GameMode = InGameManager.GameMode.Duo_community;
 
-        HighlightMultiButton();
+        HighlightMultiCoopButton();
+    }
+
+    public void SelectMultiIndi()
+    {
+        if (GameManager.Instance.gameData.GameMode == InGameManager.GameMode.Duo_individual) return;
+
+        GameManager.Instance.gameData.GameMode = InGameManager.GameMode.Duo_individual;
+
+        HighlightMultiIndiButton();
     }
 
 
     private void HighlightSoloButton()
     {
-        Button btn;
-        Outline outline;
-        ColorBlock colorBlock;
-        Color color;
-
-        btn = soloModeBtn.GetComponent<Button>();
-        colorBlock = btn.colors;
-        color = colorBlock.normalColor;
-        color.a = 50 / 255f;
-        colorBlock.normalColor = color;
-        colorBlock.selectedColor = color;
-        btn.colors = colorBlock;
-
-        outline = soloModeBtn.GetComponent<Outline>();
-        color = outline.effectColor;
-        color.a = 150 / 255f;
-        outline.effectColor = color;
-
-        btn = multiModeBtn.GetComponent<Button>();
-        colorBlock = btn.colors;
-        color = colorBlock.normalColor;
-        color.a = 5 / 255f;
-        colorBlock.normalColor = color;
-        colorBlock.selectedColor = color;
-        btn.colors = colorBlock;
-
-        outline = multiModeBtn.GetComponent<Outline>();
-        color = outline.effectColor;
-        color.a = 50 / 255f;
-        outline.effectColor = color;
+        HighlightButton(soloModeBtn, true);
+        HighlightButton(multiCoopModeBtn, false);
+        HighlightButton(multiIndiModeBtn, false);
     }
 
-    private void HighlightMultiButton()
+    private void HighlightMultiCoopButton()
+    {
+        HighlightButton(soloModeBtn, false);
+        HighlightButton(multiCoopModeBtn, true);
+        HighlightButton(multiIndiModeBtn, false);
+    }
+
+    private void HighlightMultiIndiButton()
+    {
+        HighlightButton(soloModeBtn, false);
+        HighlightButton(multiCoopModeBtn, false);
+        HighlightButton(multiIndiModeBtn, true);
+    }
+
+
+    private void HighlightButton(RectTransform buttonOgject, bool highlight)
     {
         Button btn;
         Outline outline;
         ColorBlock colorBlock;
         Color color;
 
-        btn = soloModeBtn.GetComponent<Button>();
+        btn = buttonOgject.GetComponent<Button>();
         colorBlock = btn.colors;
         color = colorBlock.normalColor;
-        color.a = 5 / 255f;
+        color.a = highlight ? 50 / 255f : 5 / 255f;
         colorBlock.normalColor = color;
         colorBlock.selectedColor = color;
         btn.colors = colorBlock;
 
-        outline = soloModeBtn.GetComponent<Outline>();
+        outline = buttonOgject.GetComponent<Outline>();
         color = outline.effectColor;
-        color.a = 50 / 255f;
-        outline.effectColor = color;
-
-        btn = multiModeBtn.GetComponent<Button>();
-        colorBlock = btn.colors;
-        color = colorBlock.normalColor;
-        color.a = 50 / 255f;
-        colorBlock.normalColor = color;
-        colorBlock.selectedColor = color;
-        btn.colors = colorBlock;
-
-        outline = multiModeBtn.GetComponent<Outline>();
-        color = outline.effectColor;
-        color.a = 150 / 255f;
+        color.a = highlight ? 150 / 255f : 50 / 255f;
         outline.effectColor = color;
     }
 }

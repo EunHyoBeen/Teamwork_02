@@ -17,7 +17,7 @@ public class InGameManager : MonoBehaviour
     [SerializeField] protected RectTransform clearMenu;
     [SerializeField] protected RectTransform gameOverMenu;
 
-    protected GameMode gameMode;
+    public static GameMode gameMode;
 
     public int stageIndex;
 
@@ -66,16 +66,24 @@ public class InGameManager : MonoBehaviour
             player1Life = 3;
             player2Life = 0;
             player1HasBall = true;
-            player1.InitializePlayer(0, -4);
+            player1.InitializePlayer(0, -4, true);
         }
-        else
+        else if (gameMode == GameMode.Duo_community)
         {
             player1Life = 3;
             player2Life = 0;
             player1HasBall = true;
+            player1.InitializePlayer(-1.5f, -4, true);
+            player2.InitializePlayer(1.5f, -4, false);
+        }
+        else
+        {
+            player1Life = 3;
+            player2Life = 3;
+            player1HasBall = true;
             player2HasBall = true;
-            player1.InitializePlayer(-1.5f, -4);
-            player2.InitializePlayer(1.5f, -4);
+            player1.InitializePlayer(-1.5f, -4, true);
+            player2.InitializePlayer(1.5f, -4, true);
         }
         playerHealth.DisplayHealth(player1Life, player2Life);
 
@@ -86,7 +94,7 @@ public class InGameManager : MonoBehaviour
     {
         if (isRally == false)
         {
-            isRally= true;
+            isRally = true;
 
             // TODO : 첫 공 발사 후 있어야 할 일들. 타이머를 작동시킨다던지 등
         }
@@ -94,52 +102,82 @@ public class InGameManager : MonoBehaviour
 
     protected virtual void PlayerOnLifeUp(int playerIndex)
     {
-        player1Life = Mathf.Clamp(player1Life + 1, 0, 3);
+        if (playerIndex == 1)
+        {
+            player1Life = Mathf.Clamp(player1Life + 1, 0, 3);
+        }
+        else
+        {
+            player2Life = Mathf.Clamp(player1Life + 1, 0, 3);
+        }
 
         playerHealth.DisplayHealth(player1Life, player2Life);
     }
 
     protected void PlayerOnDeath(int playerIndex)
     {
-        if (playerIndex == 1)
-        {
-            player1HasBall = false;
-        }
-        else
-        {
-            player2HasBall = false;
-        }
-
         if (gameMode == GameMode.Alone)
         {
             player1Life--;
             playerHealth.DisplayHealth(player1Life, 0);
 
-            if (player1Life <= 0)
+            if (player1Life > 0)
             {
-                GameOver();
+                player1.ReloadBall();
             }
             else
             {
-                player1.InitializePlayer(0, -4);
+                GameOver();
             }
         }
         else if (gameMode == GameMode.Duo_community)
         {
-            if (player1HasBall == false && player2HasBall == false)
+            player1Life--;
+            playerHealth.DisplayHealth(player1Life, 0);
+
+            if (player1Life > 0)
+            {
+                player1.ReloadBall();
+            }
+            else
+            {
+                GameOver();
+            }
+        }
+        else
+        {
+            if (playerIndex == 1)
             {
                 player1Life--;
-                playerHealth.DisplayHealth(player1Life, 0);
 
-                if (player1Life <= 0)
+                if (player1Life > 0)
                 {
-                    GameOver();
+                    player1.ReloadBall();
                 }
                 else
                 {
-                    player1.InitializePlayer(-1.5f, -4);
-                    player2.InitializePlayer(1.5f, -4);
+                    player1.DeactivatePlayer();
                 }
+            }
+            else
+            {
+                player2Life--;
+
+                if (player2Life > 0)
+                {
+                    player2.ReloadBall();
+                }
+                else
+                {
+                    player2.DeactivatePlayer();
+                }
+            }
+
+            playerHealth.DisplayHealth(player1Life, player2Life);
+
+            if (player1Life <= 0 && player2Life <= 0)
+            {
+                GameOver();
             }
         }
     }
@@ -175,7 +213,7 @@ public class InGameManager : MonoBehaviour
         stageResult.stageIndex = stageIndex;
         stageResult.isClear = false;
 
-        
+
         gameOverMenu.gameObject.SetActive(true);
     }
 

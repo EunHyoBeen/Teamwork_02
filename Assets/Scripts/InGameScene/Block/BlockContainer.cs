@@ -86,7 +86,7 @@ public class BlockContainer : MonoBehaviour
                 yCenter_R = 0.5f;
                 BlockMap_R = new int[2, 10] { { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
                                               { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
-                itemContainer.SetItemTypeWeight(Item.Type.PaddleSizeUp, 50f);
+                itemContainer.SetItemTypeWeight(Item.Type.PaddleSizeUp, 20f);
                 boostedItems = new Item.Type[] { Item.Type.PaddleSizeUp };
                 break;
             case 5:
@@ -122,7 +122,7 @@ public class BlockContainer : MonoBehaviour
                                              { 0, 2, 2, 2, 2, 2, 2, 0 },
                                              { 2, 2, 2, 2, 2, 2, 2, 2 },
                                              { 2, 2, 2, 2, 2, 2, 2, 2 } };
-                itemContainer.SetItemTypeWeight(Item.Type.PaddleSpeedDown, 50f);
+                itemContainer.SetItemTypeWeight(Item.Type.PaddleSpeedDown, 20f);
                 boostedItems = new Item.Type[] { Item.Type.PaddleSpeedDown };
                 break;
             case 7:
@@ -142,7 +142,7 @@ public class BlockContainer : MonoBehaviour
                                                { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
                                                { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 },
                                                { 6, 6, 6, 0, 0, 0, 0, 6, 6, 6 } };
-                itemContainer.SetItemTypeWeight(Item.Type.BallTriple, 100f);
+                itemContainer.SetItemTypeWeight(Item.Type.BallTriple, 50f);
                 boostedItems = new Item.Type[] { Item.Type.BallTriple };
                 break;
             case 8:

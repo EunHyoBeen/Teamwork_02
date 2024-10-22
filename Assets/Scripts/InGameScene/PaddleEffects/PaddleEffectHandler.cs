@@ -4,6 +4,7 @@ public class PaddleEffectHandler : MonoBehaviour
 {
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private BallContainer ballContainer;
+    [SerializeField] private BallContainer ballContainerPlayer1;  // Player2에서 player1 ball을 제어하기 위함
     [SerializeField] private PaddleEffectManager paddleEffectManager;
     private PaddleMovement paddleMovement;
     private PaddleSizeHandler paddleSizeHandler;
@@ -20,6 +21,8 @@ public class PaddleEffectHandler : MonoBehaviour
     {
         paddleMovement = GetComponent<PaddleMovement>();
         paddleSizeHandler = GetComponent<PaddleSizeHandler>();
+
+        if (InGameManager.gameMode == InGameManager.GameMode.Duo_community && playerID == 2) ballContainer = ballContainerPlayer1;
     }
 
     private void Update()

@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 
 public class Item : MonoBehaviour
@@ -42,6 +43,14 @@ public class Item : MonoBehaviour
         {
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             rb.velocity = initialSpeed;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Bottom"))
+        {
+            DestroyItem(false);
         }
     }
 

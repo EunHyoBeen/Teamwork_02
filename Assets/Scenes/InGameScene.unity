@@ -260,6 +260,10 @@ PrefabInstance:
       propertyPath: paddleEffectManager
       value: 
       objectReference: {fileID: 1773527007}
+    - target: {fileID: 6908728096086697125, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
+      propertyPath: ballContainerPlayer1
+      value: 
+      objectReference: {fileID: 1691396897}
     - target: {fileID: 9029653214287138580, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
       propertyPath: m_Name
       value: Paddle2

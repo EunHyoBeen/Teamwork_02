@@ -36,17 +36,25 @@ public class BossSceneManager : InGameManager
         {
             player1Life = 3;
             player1HasBall = true;
-            player1.InitializePlayer(0, -4);
+            player1.InitializePlayer(0, -4, true);
             playerHealth.DisplayHealth(3, 0);
+        }
+        else if (gameMode == GameMode.Duo_community)
+        {
+            player1Life = 3;
+            player2Life = 0;
+            player1HasBall = true;
+            player1.InitializePlayer(-1.5f, -4, true);
+            player2.InitializePlayer(1.5f, -4, false);
         }
         else
         {
             player1Life = 3;
+            player2Life = 3;
             player1HasBall = true;
             player2HasBall = true;
-            player1.InitializePlayer(-1.5f, -4);
-            player2.InitializePlayer(1.5f, -4);
-            playerHealth.DisplayHealth(3, 0);
+            player1.InitializePlayer(-1.5f, -4, true);
+            player2.InitializePlayer(1.5f, -4, true);
         }
 
         //blockContainer.OnAllBlockDestroyed += GameClear; // 보스 처리로 변경
