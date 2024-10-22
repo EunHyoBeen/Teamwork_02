@@ -27,6 +27,7 @@ public class BossController : MonoBehaviour
     private float remainingTimeToNextPhase;
     private Action enteringPhase;
     private bool actionStopped;
+    private Coroutine actionCoroutine;
 
     // 이동 관련
     private float moveSpeed;
@@ -51,6 +52,7 @@ public class BossController : MonoBehaviour
         {
             case 10:
                 transform.position = new Vector3(0, 4.3f, 0);
+                animator.SetBool("isInvincible", false);
 
                 maxHealth = 50;
                 SetHealth(maxHealth);
@@ -86,6 +88,7 @@ public class BossController : MonoBehaviour
         }
 
         actionPhase = 0;
+        if (actionCoroutine != null) StopCoroutine(actionCoroutine);
 
         actionStopped = true;
 
@@ -131,7 +134,7 @@ public class BossController : MonoBehaviour
                 remainingTimeToNextPhase = 5;
                 break;
             case 1: // Paddle Stop Debuff 폭격
-                StartCoroutine(CallItemCreationRepeatedly(Item.Type.PaddleStopDebuff, 0.5f, 5, 0, 3.36f, -5, 5, 0, -0.5f));
+                actionCoroutine = StartCoroutine(CallItemCreationRepeatedly(Item.Type.PaddleStopDebuff, 0.5f, 5, 0, 3.36f, -5, 5, 0, -0.5f));
                 remainingTimeToNextPhase = 3;
                 break;
             case 2: // 대기
@@ -153,7 +156,7 @@ public class BossController : MonoBehaviour
                 remainingTimeToNextPhase = 5;
                 break;
             case 7: // Paddle Size Down 폭격
-                StartCoroutine(CallItemCreationRepeatedly(Item.Type.PaddleSizeDown, 0.1f, 25, 0, 3.36f, -5, 5, 0, -0.5f));
+                actionCoroutine = StartCoroutine(CallItemCreationRepeatedly(Item.Type.PaddleSizeDown, 0.1f, 25, 0, 3.36f, -5, 5, 0, -0.5f));
                 remainingTimeToNextPhase = 3;
                 break;
             case 8: // 대기

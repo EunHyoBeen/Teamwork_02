@@ -23,6 +23,7 @@ public class PlayerManager : MonoBehaviour
 
     public event Action<int> OnDeathEvent;
     public event Action OnLaunchEvent;
+    public event Action<int> OnLifeUpEvent;
 
     private void Update()
     {
@@ -187,10 +188,7 @@ public class PlayerManager : MonoBehaviour
     {
         int playerIndex = playerID - 1;
 
-        if (playerIndex >= 0 && playerIndex < playerLifes.Length)
-        {
-            playerLifes[playerIndex] = Mathf.Clamp(playerLifes[playerIndex] + 1, 0, 3);
-        }
+        OnLifeUpEvent?.Invoke(playerIndex);
     }
 
     public void GameClear()

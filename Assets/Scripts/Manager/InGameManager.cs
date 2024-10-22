@@ -53,6 +53,8 @@ public class InGameManager : MonoBehaviour
         player2.PlayerID = 2;
         player1.OnLaunchEvent += PlayerOnLaunch;
         player2.OnLaunchEvent += PlayerOnLaunch;
+        player1.OnLifeUpEvent += PlayerOnLifeUp;
+        player2.OnLifeUpEvent += PlayerOnLifeUp;
         player1.OnDeathEvent += PlayerOnDeath;
         player2.OnDeathEvent += PlayerOnDeath;
 
@@ -62,19 +64,20 @@ public class InGameManager : MonoBehaviour
         if (gameMode == GameMode.Alone)
         {
             player1Life = 3;
+            player2Life = 0;
             player1HasBall = true;
             player1.InitializePlayer(0, -4);
-            playerHealth.DisplayHealth(3, 0);
         }
         else
         {
             player1Life = 3;
+            player2Life = 0;
             player1HasBall = true;
             player2HasBall = true;
             player1.InitializePlayer(-1.5f, -4);
             player2.InitializePlayer(1.5f, -4);
-            playerHealth.DisplayHealth(3, 0);
         }
+        playerHealth.DisplayHealth(player1Life, player2Life);
 
         Time.timeScale = 1;
     }
@@ -87,6 +90,13 @@ public class InGameManager : MonoBehaviour
 
             // TODO : 첫 공 발사 후 있어야 할 일들. 타이머를 작동시킨다던지 등
         }
+    }
+
+    protected virtual void PlayerOnLifeUp(int playerIndex)
+    {
+        player1Life = Mathf.Clamp(player1Life + 1, 0, 3);
+
+        playerHealth.DisplayHealth(player1Life, player2Life);
     }
 
     protected void PlayerOnDeath(int playerIndex)
@@ -137,10 +147,6 @@ public class InGameManager : MonoBehaviour
     protected void GameClear()
     {
         isPlaying = false;
-        // 이벤트 해제
-        //player1.OnDeathEvent -= PlayerOnDeath;
-        //player2.OnDeathEvent -= PlayerOnDeath;
-        //blockContainer.OnAllBlockDestroyed -= GameClear;
 
         Invoke("GameClearSequence", 1);
     }
@@ -158,10 +164,6 @@ public class InGameManager : MonoBehaviour
     private void GameOver()
     {
         isPlaying = false;
-        // 이벤트 해제
-        //player1.OnDeathEvent -= PlayerOnDeath;
-        //player2.OnDeathEvent -= PlayerOnDeath;
-        //blockContainer.OnAllBlockDestroyed -= GameClear;
 
         Invoke("GameOverSequence", 1);
     }
@@ -197,8 +199,10 @@ public class InGameManager : MonoBehaviour
 
         // 이벤트 및 오브젝트 해제
         blockContainer.Clear();
-        //player1.OnLaunch -= PlayerOnLaunch;
-        //player2.OnLaunch -= PlayerOnLaunch;
+        player1.OnLaunchEvent -= PlayerOnLaunch;
+        player2.OnLaunchEvent -= PlayerOnLaunch;
+        player1.OnLifeUpEvent -= PlayerOnLifeUp;
+        player2.OnLifeUpEvent -= PlayerOnLifeUp;
         player1.OnDeathEvent -= PlayerOnDeath;
         player2.OnDeathEvent -= PlayerOnDeath;
         blockContainer.OnAllBlockDestroyed -= GameClear;
@@ -207,12 +211,6 @@ public class InGameManager : MonoBehaviour
     }
     public void ExitStage()
     {
-        // 이벤트 및 오브젝트 해제
-        //blockContainer.Clear();
-        //player1.OnDeathEvent -= PlayerOnDeath;
-        //player2.OnDeathEvent -= PlayerOnDeath;
-        //blockContainer.OnAllBlockDestroyed -= GameClear;
-
         SceneManager.LoadScene("StageSelectScene");
     }
 

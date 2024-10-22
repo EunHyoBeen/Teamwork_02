@@ -16,7 +16,7 @@ public class StageSelect : MonoBehaviour
     public StageButton stageButton;
     public GameObject stageBtnPrefab;
     public RectTransform buttonParent;
-    private int stageCount = 20;
+    private int stageCount = 10;
     
     void Start()
     {

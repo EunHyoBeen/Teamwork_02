@@ -27,6 +27,8 @@ public class BossSceneManager : InGameManager
         // TODO : 플레이어 런치 이벤트
         player1.OnLaunchEvent += PlayerOnLaunch;
         player2.OnLaunchEvent += PlayerOnLaunch;
+        player1.OnLifeUpEvent += PlayerOnLifeUp;
+        player2.OnLifeUpEvent += PlayerOnLifeUp;
         player1.OnDeathEvent += PlayerOnDeath;
         player2.OnDeathEvent += PlayerOnDeath;
 
@@ -83,6 +85,8 @@ public class BossSceneManager : InGameManager
         blockContainerForBoss.Clear();
         player1.OnLaunchEvent -= PlayerOnLaunch;
         player2.OnLaunchEvent -= PlayerOnLaunch;
+        player1.OnLifeUpEvent -= PlayerOnLifeUp;
+        player2.OnLifeUpEvent -= PlayerOnLifeUp;
         player1.OnDeathEvent -= PlayerOnDeath;
         player2.OnDeathEvent -= PlayerOnDeath;
         //blockContainer.OnAllBlockDestroyed -= GameClear; // 보스 처리로 변경

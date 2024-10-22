@@ -12,7 +12,7 @@ public class BallContainer : MonoBehaviour
         public int size;
     }
     private int activeBalls = 0;
-    private int maxBallNumber = 20;
+    private int maxBallNumber = 200;
     public List<Pool> Pools;
     public Dictionary<string, Queue<GameObject>> PoolDictionary;
     [SerializeField][Range(0f, 20f)] private float initialSpeed = 5f;

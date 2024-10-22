@@ -8,9 +8,16 @@ public class GameModeButton : MonoBehaviour
     [SerializeField] private RectTransform soloModeBtn;
     [SerializeField] private RectTransform multiModeBtn;
 
-    private void Awake()
+    private void Start()
     {
-        HighlightSoloButton();
+        if (GameManager.Instance.gameData.GameMode == InGameManager.GameMode.Alone)
+        {
+            HighlightSoloButton();
+        }
+        else
+        {
+            HighlightMultiButton();
+        }
     }
 
     public void SelectSolo()
