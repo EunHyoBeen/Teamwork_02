@@ -1015,6 +1015,10 @@ PrefabInstance:
       propertyPath: particleManager
       value: 
       objectReference: {fileID: 1904904259}
+    - target: {fileID: 7184236002887333101, guid: e5fddcb93a1f7c04c8377533f3ad949a, type: 3}
+      propertyPath: paddleEffectManager
+      value: 
+      objectReference: {fileID: 1904904259}
     - target: {fileID: 8954205459866540486, guid: e5fddcb93a1f7c04c8377533f3ad949a, type: 3}
       propertyPath: m_Name
       value: Paddle
@@ -1322,6 +1326,11 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!212 &1186282739 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4537382604060004352, guid: e5fddcb93a1f7c04c8377533f3ad949a, type: 3}
+  m_PrefabInstance: {fileID: 869297267}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1257954746
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1408,6 +1417,10 @@ PrefabInstance:
       objectReference: {fileID: 124346446}
     - target: {fileID: 6908728096086697125, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
       propertyPath: particleManager
+      value: 
+      objectReference: {fileID: 1904904259}
+    - target: {fileID: 6908728096086697125, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
+      propertyPath: paddleEffectManager
       value: 
       objectReference: {fileID: 1904904259}
     - target: {fileID: 9029653214287138580, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
@@ -1937,6 +1950,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1741836927 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3453244310762732961, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
+  m_PrefabInstance: {fileID: 1388094432}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1904904258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1985,6 +2003,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7554815258310756333, guid: dee62436a7e7dda448b4509f1cf2a441, type: 3}
+      propertyPath: paddleSprites.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7554815258310756333, guid: dee62436a7e7dda448b4509f1cf2a441, type: 3}
+      propertyPath: paddleSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 1186282739}
+    - target: {fileID: 7554815258310756333, guid: dee62436a7e7dda448b4509f1cf2a441, type: 3}
+      propertyPath: paddleSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 1741836927}
     - target: {fileID: 7554815258310756333, guid: dee62436a7e7dda448b4509f1cf2a441, type: 3}
       propertyPath: fastTrailRenderers.Array.data[0]
       value: 
