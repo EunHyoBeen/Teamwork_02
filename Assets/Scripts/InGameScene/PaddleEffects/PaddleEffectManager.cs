@@ -6,6 +6,10 @@ public class PaddleEffectManager : MonoBehaviour
     [SerializeField] private ParticleSystem[] paddleSizeDownParticles;
     [SerializeField] private TrailRenderer[] fastTrailRenderers;
     [SerializeField] private TrailRenderer[] slowTrailRenderers;
+    [SerializeField] private SpriteRenderer[] paddleSprites;
+
+    private Color originalColor = Color.white;
+    private Color stopColor = Color.black;
 
     private void Start()
     {
@@ -16,6 +20,10 @@ public class PaddleEffectManager : MonoBehaviour
         for (int i = 0; i < slowTrailRenderers.Length; i++)
         {
             slowTrailRenderers[i].enabled = false;
+        }
+        for (int i = 0; i < paddleSprites.Length; i++)
+        {
+            paddleSprites[i].color = originalColor;
         }
     }
 
@@ -57,9 +65,21 @@ public class PaddleEffectManager : MonoBehaviour
         slowTrailRenderers[paddleIndex].enabled = true;
     }
 
+    public void ApplyStopEffect(int paddleIndex)
+    {
+        paddleSprites[paddleIndex].color = stopColor;
+    }
+
+    // 패들 속도가 다시 원래대로 돌아올 때 호출되는 메서드
+    public void RemoveStopEffect(int paddleIndex)
+    {
+        paddleSprites[paddleIndex].color = originalColor;
+    }
+
     public void ResetAllEffects(int paddleIndex)
     {
         StopSizeEffects(paddleIndex);
         StopTrailEffects(paddleIndex);
+        paddleSprites[paddleIndex].color = originalColor;
     }
 }
