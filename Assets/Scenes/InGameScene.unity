@@ -256,6 +256,10 @@ PrefabInstance:
       propertyPath: particleManager
       value: 
       objectReference: {fileID: 1773527007}
+    - target: {fileID: 6908728096086697125, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
+      propertyPath: paddleEffectManager
+      value: 
+      objectReference: {fileID: 1773527007}
     - target: {fileID: 9029653214287138580, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
       propertyPath: m_Name
       value: Paddle2
@@ -305,6 +309,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
+--- !u!212 &367243049 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3453244310762732961, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
+  m_PrefabInstance: {fileID: 367243048}
+  m_PrefabAsset: {fileID: 0}
 --- !u!198 &403039442 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 8432744769585222763, guid: 9b5caae564116ef468413628f6d1bbbb, type: 3}
@@ -1354,6 +1363,10 @@ PrefabInstance:
       propertyPath: particleManager
       value: 
       objectReference: {fileID: 1773527007}
+    - target: {fileID: 7184236002887333101, guid: e5fddcb93a1f7c04c8377533f3ad949a, type: 3}
+      propertyPath: paddleEffectManager
+      value: 
+      objectReference: {fileID: 1773527007}
     - target: {fileID: 8954205459866540486, guid: e5fddcb93a1f7c04c8377533f3ad949a, type: 3}
       propertyPath: m_Name
       value: Paddle
@@ -1363,6 +1376,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5fddcb93a1f7c04c8377533f3ad949a, type: 3}
+--- !u!212 &1621135989 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4537382604060004352, guid: e5fddcb93a1f7c04c8377533f3ad949a, type: 3}
+  m_PrefabInstance: {fileID: 1621135988}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1691396897 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1541627449012013926, guid: 7001209b7f8cead4ba9a94d8f2312dd3, type: 3}
@@ -1422,6 +1440,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7554815258310756333, guid: dee62436a7e7dda448b4509f1cf2a441, type: 3}
+      propertyPath: paddleSprites.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7554815258310756333, guid: dee62436a7e7dda448b4509f1cf2a441, type: 3}
+      propertyPath: paddleSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 1621135989}
+    - target: {fileID: 7554815258310756333, guid: dee62436a7e7dda448b4509f1cf2a441, type: 3}
+      propertyPath: paddleSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 367243049}
     - target: {fileID: 7554815258310756333, guid: dee62436a7e7dda448b4509f1cf2a441, type: 3}
       propertyPath: fastTrailRenderers.Array.data[0]
       value: 
