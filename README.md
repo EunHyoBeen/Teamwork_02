@@ -1,7 +1,7 @@
 # README - BRICK BREAKER 👊🏻
-- Unity를 활용한 벽돌 깨기 게임
-- 각 스테이지 마다 다양한 벽돌들로 구성
-- 스테이지를 클리어하면 다음 스테이지가 열리고, 중간중간 보스 스테이지도 포함되어 있어 더욱 흥미롭게 즐길 수 있는 게임
+- Unity를 활용한 벽돌 깨기 게임입니다.🤗
+- 각 스테이지 마다 다양한 벽돌들로 구성되어 있습니다.
+- 스테이지를 클리어하면 다음 스테이지가 열리고, 중간중간 보스 스테이지도 포함되어 있어 더욱 흥미롭게 즐길 수 있는 게임입니다.💪🏻
 
 ## 📆 개발 기간
 24.10.15(화) ~ 24.10.21(월)
@@ -10,7 +10,7 @@
 🧑🏻‍💻 성요셉(팀장) - 블록, 아이템, 게임매니저 / <https://github.com/jsj2518><br>
 🧑🏻‍💻 김지훈(팀원) - 플레이어, 패들 / <https://github.com/kkamsogod><br>
 👩🏻‍💻 김유민(팀원) - UI 캔버스 / <https://github.com/yumin43><br>
-🧑🏻‍💻 박한결(팀원) - 볼컨트롤러, 물리효과 / <https://github.com/HanGyeolChoi><br>
+🧑🏻‍💻 최한결(팀원) - 볼컨트롤러, 물리효과 / <https://github.com/HanGyeolChoi><br>
 
 ## 🖥️ 기술 스택
 - [Language] - `C#`
@@ -18,19 +18,37 @@
 - [IDE] : `Visual Studio 2022`, `Visual Studio Code` 
 - [Framework] : `.NET 8.0`
 
-## 🚨 와이어 프레임
+## 👀 와이어 프레임
 <img width="632" alt="스크린샷 2024-10-22 오전 3 47 30" src="https://github.com/user-attachments/assets/0e1255d4-8a67-42b5-9744-1ac769e2a1a6">
 
-## 🚨 주요 기능
-### ◽️ 게임 화면
-### ◽️ 충돌 감지
-### ◽️ 게임 로직
+## 🔎 주요 기능
+### ◽️ 시작 화면
+<img width="321" alt="스크린샷 2024-10-22 오전 9 37 04" src="https://github.com/user-attachments/assets/093114fa-b3d3-4243-8a07-b98613928239"><br>
+- 게임 모드(SOLO, MULTI) 선택
+- 스테이지 선택
+
 ### ◽️ 스테이지
+- 이전 스테이지 클리어 시, 다음 스테이지 자동 UnLock
+- 스테이지 별 다양한 벽돌 배치 구현
+
+### ◽️ 게임 화면
+<img width="321" alt="스크린샷 2024-10-22 오전 9 37 34" src="https://github.com/user-attachments/assets/d3205655-9a54-4dce-8fec-03201153a01a">
+
+- 벽돌, 패들, 공으로 구성된 화면
+- ESC 입력 시 메뉴 Panel 활성화됨
+
+### ◽️ 충돌 감지
+- 공과 벽돌, 공과 패들의 충돌을 감지
+- 충돌 시 벽돌 파괴, 공 반사
+
 ### ◽️ 아이템 시스템
-### ◽️ 사운드 효과
-### ◽️ 화면 전환
-### ◽️ 다중 플레이어 모드
+<img width="216" alt="스크린샷 2024-10-22 오전 9 49 42" src="https://github.com/user-attachments/assets/7e2bd57b-3dd8-4e62-b776-c9a9c7a205cf"><br>
+- 벽돌 파괴 시 랜덤으로 아이템 생성
+- 스테이지 별 부스팅된 아이템 존재
+
 ### ◽️ 보스 스테이지
+<img width="246" alt="스크린샷 2024-10-22 오전 9 55 42" src="https://github.com/user-attachments/assets/24215a4d-ad16-471e-9c60-fee1b0e166c3"><br>
+- 보스 캐릭터의 체력을 전부 소진시켰을 때 스테이지 Clear
 
 ## 🚨 Trouble Shooting
 ### ◽️ 블록이 다 깨지지 않았는데 게임이 Clear되는 문제(성요셉)
@@ -109,9 +127,9 @@
 - SpriteRenderer 대신 UI -> Image 오브젝트를 생성함.
 - 스크립트에서 해당 컴포넌트를 불러와 sprite 속성을 통해 이미지를 할당하는 방식으로 수정하여 의도한 위치에 랜더링됨.
 
-### ◽️ 공의 충돌 이후 방향 결정 방법(박한결)
+### ◽️ 공의 충돌 이후 방향 결정 방법(최한결)
 1. Physics Material 2D를 이용한 방법
-- 공에 마찰력 0, 탄성 계수 1로 설정된 를 적용
+- 공에 마찰력 0, 탄성 계수 1로 설정된 Physics Material 2D를 적용
 - 대부분 공이 제대로 튕겼지만, 가끔씩 벽에 부딪힐 때 이상한 각도로 튕기거나, 공의 각도가 0에 가까워져 벽에 붙는 현상 발생
 - 해당 문제를 해결하기 위해서는 공의 방향 벡터를 직접 참조해야 함.
 2. 충돌 후 Vector2.Reflect 함수를 사용하는 방법
@@ -127,12 +145,15 @@
 - 2번째 방법과 거의 동일한 움직임을 보였지만, 원형 장애물과 충돌 시 입사각이 90도를 넘는 경우 공이 장애물의 외곽을 따라 움직이는 문제 발생
 4. 최종 해결 방법
 - 1번과 3번을 결합하여 사용(Physics Material 2D를 이용한 방법 + 입사각과 반사각을 계산한 방법)
-- 기본적으로 특성을 따르되(이게 정확히 무슨 말?), 공이 벽에 부딪힐 때 각도가 수평에 너무 가까울 경우 방향 벡터를 회전시켜 공이 너무 느려지지 않도록 조정함.
+- 기본적으로 특성을 따르되, 공이 벽에 부딪힐 때 각도가 수평에 너무 가까울 경우 방향 벡터를 회전시켜 공이 너무 느려지지 않도록 조정함.
 
 ## 📄 팀 Notion
-[📌 팀 노션 페이지](https://www.notion.so/11891d7022398079923edb24979c70fe?pvs=4)
+[📌 팀 Notion 페이지](https://www.notion.so/11891d7022398079923edb24979c70fe?pvs=4)
 
 ## 🎥 Demo 영상
 [📌 Demo 영상 링크](https://www.notion.so/11891d7022398079923edb24979c70fe?pvs=4)
 
 ## 📜 Asset Reference
+<U>[Dynamic Space BackGround Lite](https://assetstore.unity.com/packages/2d/textures-materials/dynamic-space-background-lite-104606)<br>
+[Dotted Arrow](https://assetstore.unity.com/packages/tools/gui/dotted-arrow-213121)<br>
+[Puzzle Pack](https://kenney.nl/assets/puzzle-pack)<br></U>
