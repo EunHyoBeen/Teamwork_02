@@ -1,4 +1,4 @@
-# README - BRICK BREAKER 👊🏻
+# README - PpusherPpusher 👊🏻
 - Unity를 활용한 벽돌 깨기 게임입니다.🤗
 - 각 스테이지 마다 다양한 벽돌들로 구성되어 있습니다.
 - 스테이지를 클리어하면 다음 스테이지가 열리고, 중간중간 보스 스테이지도 포함되어 있어 더욱 흥미롭게 즐길 수 있는 게임입니다.💪🏻
@@ -150,7 +150,7 @@
 [📌 팀 Notion 페이지](https://www.notion.so/11891d7022398079923edb24979c70fe?pvs=4)
 
 ## 🎥 Demo 영상
-[📌 Demo 영상 링크](https://www.notion.so/11891d7022398079923edb24979c70fe?pvs=4)
+[📌 Demo 영상 링크](https://www.youtube.com/watch?v=S3lKcVkUs5k)
 
 ## 📜 Asset Reference
 <U>[Dynamic Space BackGround Lite](https://assetstore.unity.com/packages/2d/textures-materials/dynamic-space-background-lite-104606)<br>
