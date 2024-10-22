@@ -56,6 +56,7 @@ public class BossSceneManager : InGameManager
             player1.InitializePlayer(-1.5f, -4, true);
             player2.InitializePlayer(1.5f, -4, true);
         }
+        playerHealth.DisplayHealth(player1Life, player2Life);
 
         //blockContainer.OnAllBlockDestroyed += GameClear; // 보스 처리로 변경
         boss.OnBossBreak += GameClear;

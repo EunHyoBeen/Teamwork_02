@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static InGameManager;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class InGameManager : MonoBehaviour
 {

@@ -54,7 +54,7 @@ public class BossController : MonoBehaviour
                 transform.position = new Vector3(0, 4.3f, 0);
                 animator.SetBool("isInvincible", false);
 
-                maxHealth = 50;
+                maxHealth = 100;
                 SetHealth(maxHealth);
 
                 invincibleState = false;
