@@ -4,7 +4,7 @@ public class PaddleEffectHandler : MonoBehaviour
 {
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private BallContainer ballContainer;
-    [SerializeField] private PaddleEffectManager particleManager;
+    [SerializeField] private PaddleEffectManager paddleEffectManager;
     private PaddleMovement paddleMovement;
     private PaddleSizeHandler paddleSizeHandler;
 
@@ -32,11 +32,16 @@ public class PaddleEffectHandler : MonoBehaviour
         HandleItemDuration
             (
                 ref paddleSpeedItemDuration,
-                () => { paddleMovement.AdjustPaddleSpeed(1f); particleManager.StopTrailEffects(paddleIndex); }, "패들 스피드 복구"
+                () => { paddleMovement.AdjustPaddleSpeed(1f); paddleEffectManager.StopTrailEffects(paddleIndex); }, "패들 스피드 복구"
             );
         HandleItemDuration(ref ballSpeedItemDuration, () => ballContainer.SpeedChange(-2), "공 스피드 복구");
         HandleItemDuration(ref ballPowerItemDuration, () => ballContainer.PowerChange(1), "공 파워 복구");
-        HandleItemDuration(ref stopItemDuration, () => paddleMovement.ResumeMovement(), "패들 멈춤 해제");
+        HandleItemDuration(ref stopItemDuration, () =>
+        {
+            paddleMovement.ResumeMovement();
+            paddleEffectManager.RemoveStopEffect(paddleIndex);
+        }, "패들 멈춤 해제");
+
     }
 
     private void HandleItemDuration(ref float duration, System.Action onEndEffect, string logMessage)
@@ -103,11 +108,11 @@ public class PaddleEffectHandler : MonoBehaviour
 
         if (isSizeUp)
         {
-            particleManager.PlayPaddleSizeUpEffect(paddleIndex);
+            paddleEffectManager.PlayPaddleSizeUpEffect(paddleIndex);
         }
         else
         {
-            particleManager.PlayPaddleSizeDownEffect(paddleIndex);
+            paddleEffectManager.PlayPaddleSizeDownEffect(paddleIndex);
         }
 
         Invoke(nameof(StopSizeEffects), 1f);
@@ -115,7 +120,7 @@ public class PaddleEffectHandler : MonoBehaviour
 
     private void StopSizeEffects()
     {
-        particleManager.StopSizeEffects(paddleIndex);
+        paddleEffectManager.StopSizeEffects(paddleIndex);
     }
 
     private void ApplyPaddleSpeedEffect(float speedMultiplier, float duration, string logMessage)
@@ -126,11 +131,11 @@ public class PaddleEffectHandler : MonoBehaviour
 
         if (speedMultiplier > 1f)
         {
-            particleManager.PlayFastTrail(paddleIndex);
+            paddleEffectManager.PlayFastTrail(paddleIndex);
         }
         else
         {
-            particleManager.PlaySlowTrail(paddleIndex);
+            paddleEffectManager.PlaySlowTrail(paddleIndex);
         }
     }
 
@@ -158,6 +163,7 @@ public class PaddleEffectHandler : MonoBehaviour
     {
         paddleMovement.isStopped = true;
         stopItemDuration = duration;
+        paddleEffectManager.ApplyStopEffect(paddleIndex);
         Debug.Log("패들 멈춤");
     }
 
@@ -171,5 +177,7 @@ public class PaddleEffectHandler : MonoBehaviour
         ballSpeedItemDuration = 0f;
         ballPowerItemDuration = 0f;
         stopItemDuration = 0f;
+
+        paddleEffectManager.ResetAllEffects(paddleIndex);
     }
 }
